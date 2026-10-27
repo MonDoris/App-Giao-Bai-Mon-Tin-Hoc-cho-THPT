@@ -437,3 +437,24 @@ END;
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261027070645_AddAssignmentStartDate'
+)
+BEGIN
+    ALTER TABLE [Assignments] ADD [StartAtUtc] datetime2 NULL;
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20261027070645_AddAssignmentStartDate'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20261027070645_AddAssignmentStartDate', N'10.0.12');
+END;
+
+COMMIT;
+GO
+

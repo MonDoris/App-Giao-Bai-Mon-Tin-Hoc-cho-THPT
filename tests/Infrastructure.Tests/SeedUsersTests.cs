@@ -82,9 +82,9 @@ public class SeedUsersTests
         var repo = new AssignmentRepository(ctx);
         var ids = await ctx.Users.ToDictionaryAsync(u => u.Username, u => u.Id);
 
-        var hs01 = await repo.GetVisibleForStudentAsync(ids["hs01"]);
-        var hs02 = await repo.GetVisibleForStudentAsync(ids["hs02"]);
-        var hs03 = await repo.GetVisibleForStudentAsync(ids["hs03"]);
+        var hs01 = await repo.GetVisibleForStudentAsync(ids["hs01"], DateTime.UtcNow);
+        var hs02 = await repo.GetVisibleForStudentAsync(ids["hs02"], DateTime.UtcNow);
+        var hs03 = await repo.GetVisibleForStudentAsync(ids["hs03"], DateTime.UtcNow);
 
         Assert.Equal(6, hs01.Select(r => r.ExerciseId).Distinct().Count());
         Assert.Equal(6, hs02.Count);

@@ -6,6 +6,11 @@ public class Assignment
     public int Id { get; set; }
     public string ExerciseId { get; set; } = string.Empty;
     public bool AssignedToAll { get; set; }
+
+    /// <summary>Thời điểm học sinh bắt đầu thấy và làm được bài; null (lượt giao cũ) = thấy ngay.</summary>
+    public DateTime? StartAtUtc { get; set; }
+
+    /// <summary>Hạn nộp; bắt buộc với lượt giao mới, có thể null ở lượt giao tạo trước khi hạn nộp thành bắt buộc.</summary>
     public DateTime? DueAtUtc { get; set; }
     public string? Note { get; set; }
     public int CreatedByUserId { get; set; }

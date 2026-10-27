@@ -42,7 +42,7 @@ public sealed class GetSolutionUseCase
 
         if (user.IsStudent)
         {
-            var rows = await _assignments.GetVisibleForStudentAsync(user.Id, cancellationToken);
+            var rows = await _assignments.GetVisibleForStudentAsync(user.Id, _clock.UtcNow, cancellationToken);
             if (rows.All(r => r.ExerciseId != exercise.Id))
             {
                 throw new NotFoundException("Không tìm thấy đáp án.");

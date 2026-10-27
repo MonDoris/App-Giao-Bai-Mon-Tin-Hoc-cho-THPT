@@ -427,11 +427,11 @@ internal sealed class FakeAssignmentRepository : IAssignmentRepository
         _w = world;
     }
 
-    public Task<IReadOnlyList<StudentAssignmentRow>> GetVisibleForStudentAsync(int studentId, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<StudentAssignmentRow>> GetVisibleForStudentAsync(int studentId, DateTime nowUtc, CancellationToken cancellationToken = default)
     {
         var myClasses = _w.Classes.Where(c => c.Members.Any(m => m.StudentId == studentId)).Select(c => c.Id).ToHashSet();
         var rows = new List<StudentAssignmentRow>();
-        foreach (var a in _w.Assignments.Where(a => a.IsActive && (a.AssignedToAll || a.Classes.Any(c => myClasses.Contains(c.ClassId)))))
+        foreach (var a in _w.Assignments.Where(a => a.IsActive && (a.StartAtUtc is null || a.StartAtUtc <= nowUtc) && (a.AssignedToAll || a.Classes.Any(c => myClasses.Contains(c.ClassId)))))
         {
             var e = _w.Exercises.FirstOrDefault(x => x.Id == a.ExerciseId);
             var l = e is null ? null : _w.Lessons.First(x => x.Id == e.LessonId);

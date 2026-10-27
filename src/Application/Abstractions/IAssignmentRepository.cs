@@ -29,9 +29,10 @@ public interface IAssignmentRepository
 {
     /// <summary>
     /// Assignment chưa hủy mà học sinh được nhận (giao cho tất cả hoặc cho lớp của em), chỉ gồm bài tập và bài học
-    /// đã xuất bản, chưa lưu trữ (QD-26). Chưa chọn assignment hiệu lực: use case dùng AssignmentRules.
+    /// đã xuất bản, chưa lưu trữ (QD-26), và đã tới ngày bắt đầu (StartAtUtc &lt;= nowUtc hoặc không đặt).
+    /// Chưa chọn assignment hiệu lực: use case dùng AssignmentRules.
     /// </summary>
-    Task<IReadOnlyList<StudentAssignmentRow>> GetVisibleForStudentAsync(int studentId, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<StudentAssignmentRow>> GetVisibleForStudentAsync(int studentId, DateTime nowUtc, CancellationToken cancellationToken = default);
 
     /// <summary>Assignment theo Id (được theo dõi, kèm Classes); null nếu không có.</summary>
     Task<Assignment?> GetByIdAsync(int id, CancellationToken cancellationToken = default);

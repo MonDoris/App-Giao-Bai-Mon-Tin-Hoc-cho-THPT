@@ -1,5 +1,5 @@
-// Giao bài: biểu mẫu theo bước (bài học, bài tập, đối tượng, hạn nộp) với thẻ tóm tắt dính bên phải,
-// và danh sách lượt giao dạng thẻ có tiến độ nộp bài. API và quy tắc kiểm tra giữ nguyên như bản cũ.
+// Giao bài: biểu mẫu theo bước (bài học, bài tập, đối tượng, thời gian làm bài) với thẻ tóm tắt dính bên phải,
+// và danh sách lượt giao dạng thẻ có tiến độ nộp bài. Hạn nộp bắt buộc; học sinh chỉ thấy bài từ lúc bắt đầu.
 import { api, ApiError } from '/js/core/api.js';
 import { initPage } from '/js/core/auth.js';
 import { el, clear, stateBox, skeleton, difficultyInfo } from '/js/core/dom.js';
@@ -23,7 +23,12 @@ const selectAll = el('input', { type: 'checkbox', id: 'select-all' });
 const targetAll = el('input', { type: 'radio', name: 'target', id: 'target-all', value: 'all', checked: true });
 const targetClasses = el('input', { type: 'radio', name: 'target', id: 'target-classes', value: 'classes' });
 const classList = el('div', { class: 'as-pills' });
-const dueF = field({ id: 'due', label: `Hạn nộp (giờ địa phương: ${timeZoneLabel()})`, type: 'datetime-local' });
+const startF = field({ id: 'start', label: 'Bắt đầu làm', type: 'datetime-local', hint: 'Học sinh thấy bài từ lúc này.' });
+const dueF = field({ id: 'due', label: 'Hạn nộp (bắt buộc)', type: 'datetime-local', hint: 'Nộp sau hạn vẫn nhận, ghi là nộp muộn.' });
+dueF.input.required = true;
+dueF.input.setAttribute('aria-required', 'true');
+const nowLocal = () => toLocalInputValue(new Date().toISOString());
+startF.value = nowLocal();
 const noteF = field({ id: 'note', label: 'Ghi chú cho học sinh', type: 'textarea', rows: 2, maxlength: 500, counter: true });
 noteF.input.placeholder = 'Ví dụ: Làm xong trước buổi học tới, nhớ đọc lại phần Lưu ý.';
 const formAlert = el('div', { role: 'alert' });
@@ -40,21 +45,32 @@ function step(n, title, hint, ...body) {
     el('div', { class: 'as-step__body' }, ...body));
 }
 
-// Hạn nộp nhanh: đặt giá trị cho ô datetime-local (giờ địa phương), vẫn sửa tay được.
-function quickDue(label, make) {
+// Chọn nhanh: đặt giá trị cho ô datetime-local (giờ địa phương), vẫn sửa tay được.
+function quick(target, label, make) {
   const b = el('button', { type: 'button', class: 'btn btn--small as-quick' }, label);
   b.addEventListener('click', () => {
-    const d = make();
-    dueF.value = d ? toLocalInputValue(d.toISOString()) : '';
-    dueF.clearError();
+    target.value = toLocalInputValue(make().toISOString());
+    target.clearError();
     renderSummary();
   });
   return b;
 }
-const endOfDay = (days) => {
-  const d = new Date();
+/** Ngày bắt đầu đang chọn (không hợp lệ hoặc trống thì là bây giờ). */
+const startDate = () => {
+  const iso = fromLocalInput(startF.value);
+  return iso ? new Date(iso) : new Date();
+};
+// Hạn nộp nhanh tính từ ngày bắt đầu: cuối ngày thứ n sau ngày bắt đầu (23:59).
+const endOfDayAfterStart = (days) => {
+  const d = startDate();
   d.setDate(d.getDate() + days);
   d.setHours(23, 59, 0, 0);
+  return d;
+};
+const tomorrowAt7 = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(7, 0, 0, 0);
   return d;
 };
 
@@ -69,21 +85,27 @@ const form = el('form', { class: 'as-form', novalidate: true },
       el('label', { class: 'as-seg__opt', for: 'target-all' }, targetAll, icon('users'), el('span', {}, el('strong', {}, 'Tất cả học sinh'), el('span', { class: 'as-seg__sub' }, 'Mọi học sinh trong hệ thống'))),
       el('label', { class: 'as-seg__opt', for: 'target-classes' }, targetClasses, icon('list'), el('span', {}, el('strong', {}, 'Chọn lớp'), el('span', { class: 'as-seg__sub' }, 'Chỉ các lớp bạn đánh dấu')))),
     classList),
-  step(4, 'Hạn nộp và ghi chú', 'Không bắt buộc. Bài nộp sau hạn vẫn được nhận nhưng ghi là nộp muộn.',
-    dueF.root,
-    el('div', { class: 'as-quickrow', role: 'group', 'aria-label': 'Chọn nhanh hạn nộp' },
-      quickDue('Không có hạn', () => null),
-      quickDue('Hết hôm nay', () => endOfDay(0)),
-      quickDue('Ngày mai', () => endOfDay(1)),
-      quickDue('3 ngày', () => endOfDay(3)),
-      quickDue('1 tuần', () => endOfDay(7))),
-    noteF.root));
+  step(4, 'Thời gian làm bài', `Học sinh thấy bài từ lúc bắt đầu và phải nộp trước hạn. Giờ địa phương: ${timeZoneLabel()}.`,
+    el('div', { class: 'as-dates' },
+      el('div', { class: 'as-date' },
+        startF.root,
+        el('div', { class: 'as-quickrow', role: 'group', 'aria-label': 'Chọn nhanh thời điểm bắt đầu' },
+          quick(startF, 'Ngay bây giờ', () => new Date()),
+          quick(startF, 'Sáng mai 7:00', tomorrowAt7))),
+      el('div', { class: 'as-date' },
+        dueF.root,
+        el('div', { class: 'as-quickrow', role: 'group', 'aria-label': 'Chọn nhanh hạn nộp, tính từ ngày bắt đầu' },
+          quick(dueF, 'Cuối ngày bắt đầu', () => endOfDayAfterStart(0)),
+          quick(dueF, '+1 ngày', () => endOfDayAfterStart(1)),
+          quick(dueF, '+3 ngày', () => endOfDayAfterStart(3)),
+          quick(dueF, '+1 tuần', () => endOfDayAfterStart(7)))))),
+  step(5, 'Ghi chú', 'Không bắt buộc. Học sinh thấy ghi chú này cạnh bài tập.', noteF.root));
 
 const aside = el('aside', { class: 'as-sum', 'aria-labelledby': 'as-sum-title' },
   el('h2', { id: 'as-sum-title', class: 'as-sum__title' }, icon('clipboard'), 'Tóm tắt lượt giao'),
   summary,
   submitBtn,
-  el('p', { class: 'as-sum__note' }, 'Học sinh thấy bài ngay sau khi giao. Bạn có thể sửa hạn nộp hoặc hủy giao ở danh sách bên dưới.'));
+  el('p', { class: 'as-sum__note' }, 'Học sinh thấy bài từ lúc bắt đầu. Bạn có thể sửa thời gian hoặc hủy giao ở danh sách bên dưới.'));
 // Nút Giao bài nằm ngoài <form> (trong thẻ tóm tắt) nên gắn vào form bằng thuộc tính form.
 form.id = 'assign-form';
 submitBtn.setAttribute('form', 'assign-form');
@@ -100,6 +122,8 @@ function renderSummary() {
   const picked = exerciseChecks().filter((c) => c.checked);
   const cls = selectedClasses();
   const due = fromLocalInput(dueF.value);
+  const start = fromLocalInput(startF.value);
+  const startsNow = !start || Date.parse(start) <= Date.now() + 60000;
   const row = (ic, label, value, ok) => [
     el('dt', {}, icon(ic), label),
     el('dd', { class: ok ? '' : 'is-missing' }, value),
@@ -110,7 +134,8 @@ function renderSummary() {
     ...row('book', 'Bài học', detail ? detail.title : 'Chưa chọn', !!detail),
     ...row('code', 'Bài tập', picked.length ? `${picked.length} bài tập` : 'Chưa chọn', picked.length > 0),
     ...row('users', 'Giao cho', target, targetAll.checked || cls.length > 0),
-    ...row('calendar', 'Hạn nộp', due ? formatDateTime(due) : 'Không có hạn', true));
+    ...row('clock', 'Bắt đầu', startsNow ? 'Ngay khi giao' : formatDateTime(start), true),
+    ...row('calendar', 'Hạn nộp', due ? formatDateTime(due) : 'Chưa chọn (bắt buộc)', !!due));
   exerciseCount.textContent = detail && detail.exercises.length ? `Đã chọn ${picked.length}/${exerciseChecks().length}` : '';
 }
 
@@ -172,6 +197,7 @@ function setClassesEnabled() {
 targetAll.addEventListener('change', setClassesEnabled);
 targetClasses.addEventListener('change', setClassesEnabled);
 dueF.input.addEventListener('input', debounce(renderSummary, 150));
+startF.input.addEventListener('input', debounce(renderSummary, 150));
 
 function renderClassChoices() {
   clear(classList);
@@ -192,13 +218,18 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault();
   clear(formAlert);
   dueF.clearError();
+  startF.clearError();
   const exerciseIds = exerciseChecks().filter((c) => c.checked).map((c) => c.value);
   const classIds = targetClasses.checked ? Array.from(classList.querySelectorAll('input:checked')).map((c) => Number(c.value)) : [];
   if (!exerciseIds.length) return formAlert.append(banner('error', 'Hãy chọn ít nhất một bài tập để giao.'));
   if (targetClasses.checked && !classIds.length) return formAlert.append(banner('error', 'Hãy chọn ít nhất một lớp hoặc chọn "Tất cả học sinh".'));
+  const startAt = fromLocalInput(startF.value); // trống = bắt đầu ngay lúc giao
   const dueAt = fromLocalInput(dueF.value);
-  if (dueAt && Date.parse(dueAt) <= Date.now()) {
-    dueF.setError('Hạn nộp phải sau thời điểm hiện tại.');
+  const dueError = !dueAt ? 'Hãy chọn hạn nộp.'
+    : Date.parse(dueAt) <= Date.now() ? 'Hạn nộp phải sau thời điểm hiện tại.'
+      : startAt && Date.parse(dueAt) <= Date.parse(startAt) ? 'Hạn nộp phải sau thời điểm bắt đầu.' : null;
+  if (dueError) {
+    dueF.setError(dueError);
     return dueF.input.focus();
   }
 
@@ -207,6 +238,7 @@ form.addEventListener('submit', async (event) => {
       const result = await api.assign({
         exerciseIds,
         target: { all: targetAll.checked, classIds },
+        startAt,
         dueAt,
         note: noteF.value.trim() || null,
       });
@@ -216,7 +248,10 @@ form.addEventListener('submit', async (event) => {
       renderSummary();
       await loadTable();
     } catch (err) {
-      if (err instanceof ApiError && (err.status === 422 || err.status === 404)) {
+      if (err instanceof ApiError && err.status === 422 && err.field === 'dueAt') {
+        dueF.setError(err.message);
+        dueF.input.focus();
+      } else if (err instanceof ApiError && (err.status === 422 || err.status === 404)) {
         formAlert.append(banner('error', err.message || 'Dữ liệu giao bài không hợp lệ.'));
       } else if (!(err instanceof ApiError && err.status === 401)) {
         formAlert.append(banner('error', 'Chưa giao được: ' + errorText(err) + ' Bạn có thể bấm "Giao bài" để thử lại.'));
@@ -236,9 +271,10 @@ function targetText(a) {
   return a.assignedToAll ? 'Tất cả học sinh' : a.classNames.join(', ') || '(chưa có lớp)';
 }
 
-/** Chip hạn nộp: còn bao lâu, đã hết hạn, hoặc không có hạn. */
+/** Chip trạng thái thời gian: chưa mở, còn bao lâu, đã hết hạn (lượt giao cũ có thể không có hạn). */
 function dueChip(a) {
   if (a.cancelledAt) return chip('chip--archived', 'archive', 'Đã hủy');
+  if (a.startAt && Date.parse(a.startAt) > Date.now()) return chip('chip--info', 'calendar', `Chưa mở, mở lúc ${formatDateTime(a.startAt)}`);
   if (!a.dueAt) return chip('chip--info', 'clock', 'Không có hạn');
   const ms = Date.parse(a.dueAt) - Date.now();
   if (ms <= 0) return chip('chip--late', 'alert', 'Đã hết hạn');
@@ -264,19 +300,22 @@ function progress(a) {
 }
 
 async function editAssignment(a, opener) {
-  const due = field({ id: 'e-due', label: `Hạn nộp (giờ địa phương: ${timeZoneLabel()})`, type: 'datetime-local', value: toLocalInputValue(a.dueAt) });
+  const start = field({ id: 'e-start', label: 'Bắt đầu làm', type: 'datetime-local', value: toLocalInputValue(a.startAt),
+    hint: a.startAt ? 'Học sinh thấy bài từ lúc này.' : 'Đang mở; để trống là giữ nguyên.' });
+  const due = field({ id: 'e-due', label: 'Hạn nộp (bắt buộc)', type: 'datetime-local', value: toLocalInputValue(a.dueAt), hint: 'Học sinh nộp trước lúc này.' });
+  due.input.setAttribute('aria-required', 'true');
   const note = field({ id: 'e-note', label: 'Ghi chú', type: 'textarea', rows: 2, maxlength: 500, value: a.note || '', counter: true });
   const all = el('input', { type: 'radio', name: 'e-target', id: 'e-all', checked: a.assignedToAll });
   const some = el('input', { type: 'radio', name: 'e-target', id: 'e-some', checked: !a.assignedToAll });
   const boxes = classes.map((c) => ({ c, box: el('input', { type: 'checkbox', id: 'e-cls-' + c.id, checked: a.classIds.includes(c.id) }) }));
   const err = el('div', { role: 'alert' });
-  const warnPast = el('p', { class: 'hint' }, 'Khi sửa, bạn được phép đặt hạn nộp về quá khứ; bài nộp từ lúc đó sẽ bị ghi nhận là nộp muộn.');
+  const warnPast = el('p', { class: 'hint' }, `Giờ địa phương: ${timeZoneLabel()}. Khi sửa, bạn được phép đặt hạn nộp về quá khứ; bài nộp từ lúc đó sẽ bị ghi nhận là nộp muộn.`);
   const choice = await showDialog({
     title: `Sửa lượt giao: ${a.exerciseTitle}`,
     wide: true,
     opener,
     closeValue: false,
-    content: el('div', {}, err, due.root, warnPast, note.root,
+    content: el('div', {}, err, el('div', { class: 'as-dates' }, start.root, due.root), warnPast, note.root,
       el('fieldset', {}, el('legend', {}, 'Giao cho'),
         el('div', { class: 'row' }, el('label', { class: 'check', for: 'e-all' }, all, 'Tất cả học sinh'), el('label', { class: 'check', for: 'e-some' }, some, 'Chọn lớp')),
         el('div', { class: 'as-pills' }, boxes.map(({ c, box }) => el('label', { class: 'as-pill', for: box.id }, box, el('span', {}, c.name)))))),
@@ -288,10 +327,20 @@ async function editAssignment(a, opener) {
         kind: 'primary',
         action: async () => {
           clear(err);
+          due.clearError();
           const classIds = all.checked ? [] : boxes.filter((b) => b.box.checked).map((b) => b.c.id);
           if (!all.checked && !classIds.length) { err.append(banner('error', 'Hãy chọn ít nhất một lớp hoặc "Tất cả học sinh".')); return false; }
+          const startAt = fromLocalInput(start.value);
+          const dueAt = fromLocalInput(due.value);
+          const dueError = !dueAt ? 'Hãy chọn hạn nộp.'
+            : startAt && Date.parse(dueAt) <= Date.parse(startAt) ? 'Hạn nộp phải sau thời điểm bắt đầu.' : null;
+          if (dueError) {
+            due.setError(dueError);
+            due.input.focus();
+            return false;
+          }
           try {
-            await api.updateAssignment(a.id, { target: { all: all.checked, classIds }, dueAt: fromLocalInput(due.value), note: note.value.trim() || null });
+            await api.updateAssignment(a.id, { target: { all: all.checked, classIds }, startAt, dueAt, note: note.value.trim() || null });
           } catch (e) {
             err.append(banner('error', errorText(e)));
             return false;
@@ -338,7 +387,10 @@ function assignmentCard(a) {
       el('div', { class: 'as-item__chips' },
         dueChip(a),
         chip('chip--info', a.assignedToAll ? 'users' : 'list', targetText(a)),
-        a.dueAt ? el('span', { class: 'muted' }, 'Hạn ', el('span', { class: 'mono' }, formatDateTime(a.dueAt))) : null),
+        el('span', { class: 'muted as-item__when' },
+          a.startAt ? ['Mở ', el('span', { class: 'mono' }, formatDateTime(a.startAt))] : null,
+          a.startAt && a.dueAt ? ' → ' : null,
+          a.dueAt ? ['Hạn ', el('span', { class: 'mono' }, formatDateTime(a.dueAt))] : null)),
       a.note ? el('p', { class: 'as-item__note' }, a.note) : null),
     progress(a),
     a.cancelledAt ? el('div', { class: 'as-item__actions' }, stateChip('archived'))

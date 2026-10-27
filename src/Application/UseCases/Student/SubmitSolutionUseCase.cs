@@ -57,7 +57,7 @@ public sealed class SubmitSolutionUseCase
             throw new NotFoundException("Không tìm thấy bài tập.");
         }
 
-        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, cancellationToken);
+        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, _clock.UtcNow, cancellationToken);
         var effective = AssignmentRules.PickEffective(rows).GetValueOrDefault(exerciseId!)
             ?? throw new NotFoundException("Không tìm thấy bài tập.");
 

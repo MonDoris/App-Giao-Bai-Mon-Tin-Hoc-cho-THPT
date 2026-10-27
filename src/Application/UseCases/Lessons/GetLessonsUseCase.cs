@@ -14,12 +14,14 @@ public sealed class GetLessonsUseCase
     private readonly ILessonRepository _lessons;
     private readonly IAssignmentRepository _assignments;
     private readonly ISubmissionRepository _submissions;
+    private readonly IClock _clock;
 
-    public GetLessonsUseCase(ILessonRepository lessons, IAssignmentRepository assignments, ISubmissionRepository submissions)
+    public GetLessonsUseCase(ILessonRepository lessons, IAssignmentRepository assignments, ISubmissionRepository submissions, IClock clock)
     {
         _lessons = lessons;
         _assignments = assignments;
         _submissions = submissions;
+        _clock = clock;
     }
 
     public async Task<LessonListDto> ExecuteAsync(CurrentUser user, CancellationToken cancellationToken = default)
@@ -33,7 +35,7 @@ public sealed class GetLessonsUseCase
                 .ToList());
         }
 
-        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, cancellationToken);
+        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, _clock.UtcNow, cancellationToken);
         var effective = AssignmentRules.PickEffective(rows).Values.ToList();
         var stats = await _submissions.GetStatsAsync(user.Id, cancellationToken);
 

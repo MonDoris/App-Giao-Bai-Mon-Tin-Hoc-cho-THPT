@@ -95,13 +95,15 @@ public sealed record ReorderInputDto(IReadOnlyList<string>? Ids);
 // ---------------------------------------------------------------- Giao bài
 public sealed record AssignmentTargetDto(bool All, IReadOnlyList<int>? ClassIds);
 
+/// <summary>DueAt bắt buộc; StartAt bỏ trống = bắt đầu ngay lúc giao.</summary>
 public sealed record AssignInputDto(
     IReadOnlyList<string>? ExerciseIds,
     AssignmentTargetDto? Target,
     DateTime? DueAt,
-    string? Note);
+    string? Note,
+    DateTime? StartAt = null);
 
-public sealed record UpdateAssignmentInputDto(AssignmentTargetDto? Target, DateTime? DueAt, string? Note);
+public sealed record UpdateAssignmentInputDto(AssignmentTargetDto? Target, DateTime? DueAt, string? Note, DateTime? StartAt = null);
 
 public sealed record AssignmentDto(
     int Id,
@@ -118,7 +120,8 @@ public sealed record AssignmentDto(
     DateTime? CancelledAt,
     int AssignedStudents,
     int SubmittedStudents,
-    int PassedStudents);
+    int PassedStudents,
+    DateTime? StartAt);
 
 public sealed record AssignmentListDto(IReadOnlyList<AssignmentDto> Assignments);
 

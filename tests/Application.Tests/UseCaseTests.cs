@@ -10,7 +10,7 @@ internal static class UseCases
 {
     private static readonly JsonSerializerOptions Web = new(JsonSerializerDefaults.Web);
 
-    public static GetLessonsUseCase Lessons(World w) => new(w.LessonRepo, w.AssignmentRepo, w.SubmissionRepo);
+    public static GetLessonsUseCase Lessons(World w) => new(w.LessonRepo, w.AssignmentRepo, w.SubmissionRepo, w.Clock);
 
     public static GetLessonDetailUseCase Detail(World w) => new(w.LessonRepo, w.AssignmentRepo, w.SubmissionRepo, w.Clock);
 

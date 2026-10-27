@@ -22,10 +22,8 @@
 </head>
 <body class="lp">
   <a class="skip-link" href="#main">Bỏ qua, tới nội dung chính</a>
-  <canvas class="lp-dragon-canvas" id="lp-dragon-canvas" aria-hidden="true"></canvas>
 
   <header class="lp-nav" id="lp-nav">
-    <div class="lp-scroll-bar" aria-hidden="true"></div>
     <div class="lp-nav__inner">
       <a class="brand lp-brand" href="#hero" aria-label="DK Edu – về đầu trang">
         <span class="brand__tile"><img class="brand__logo" src="/img/logo-dk-icon.png" alt="" width="46" height="40"></span>
@@ -33,10 +31,10 @@
       </a>
       <nav class="lp-nav__links" id="lp-links" aria-label="Điều hướng trang giới thiệu">
         <ul>
-          <li><a href="#hero" aria-current="location">Trang chủ</a></li>
-          <li><a href="#vai-tro">Khóa học</a></li>
-          <li><a href="#cach-hoat-dong">Tài liệu</a></li>
-          <li><a href="#hoi-dap">Hỗ trợ</a></li>
+          <li><a href="#vai-tro">Dành cho ai</a></li>
+          <li><a href="#cach-hoat-dong">Cách hoạt động</a></li>
+          <li><a href="#tinh-nang">Tính năng</a></li>
+          <li><a href="#hoi-dap">Câu hỏi</a></li>
         </ul>
       </nav>
       <div class="lp-nav__actions">
@@ -49,102 +47,38 @@
 
   <main id="main">
     <section class="lp-hero" id="hero" aria-labelledby="hero-title">
-      <div class="lp-hero__media" aria-hidden="true">
-        <img class="lp-hero__img" src="/img/hero-classroom.jpg" alt="" width="1360" height="759" fetchpriority="high">
-        <div class="lp-hero__scrim"></div>
-      </div>
       <div class="lp-wrap lp-hero__grid">
-        <div class="lp-hero__text lp-3d-card">
-          <h1 id="hero-title" class="lp-hero__title">
-            <span class="lp-title-row">
-              <span>Học Tin học 12</span>
-              <span class="lp-badge-3d lp-badge-3d--gddt" aria-hidden="true">
-                <span class="lp-badge-3d__txt">Chuẩn<br>GD&amp;ĐT</span>
-                <svg class="lp-badge-3d__seal" viewBox="0 0 36 42" focusable="false">
-                  <path class="lp-seal__ribbon" d="M11 24L6 39l7-4 5 4V24zM25 24l5 15-7-4-5 4V24z"></path>
-                  <circle class="lp-seal__outer" cx="18" cy="16" r="12" stroke-width="2"></circle>
-                  <circle class="lp-seal__inner" cx="18" cy="16" r="8" stroke-width="1.5" stroke-dasharray="3 2"></circle>
-                  <path class="lp-seal__check" d="M14 16.5l2.8 2.8L22.5 13" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </span>
-            </span>
-            <span class="lp-title-row">
-              <span>bằng Python</span>
-              <span class="lp-badge-3d lp-badge-3d--py" aria-hidden="true">
-                <svg class="lp-badge-3d__medallion" viewBox="0 0 64 64" focusable="false">
-                  <circle class="lp-medal__rim" cx="32" cy="32" r="26" stroke-width="3"></circle>
-                  <circle class="lp-medal__ring" cx="32" cy="32" r="21" stroke-width="1.5" stroke-dasharray="4 3"></circle>
-                  <circle class="lp-medal__core" cx="32" cy="32" r="16"></circle>
-                  <path class="lp-medal__py-top" d="M31.5 19c-5.5 0-5.2 2.4-5.2 2.4v2.5h5.3v.8h-7.4s-3.5-.4-3.5 5.1 3.1 5.3 3.1 5.3h1.8v-2.6s-.1-3.1 3-3.1h5.2s2.9.1 2.9-2.8v-4.8s.4-2.8-5.2-2.8z"></path>
-                  <path class="lp-medal__py-bot" d="M32.5 45c5.5 0 5.2-2.4 5.2-2.4v-2.5h-5.3v-.8h7.4s3.5.4 3.5-5.1-3.1-5.3-3.1-5.3h-1.8v2.6s.1 3.1-3 3.1h-5.2s-2.9-.1-2.9 2.8v4.8s-.4 2.8 5.2 2.8z"></path>
-                </svg>
-              </span>
-            </span>
-          </h1>
-          <p class="sr-only">Đọc bài, viết mã Python và nhận kết quả chấm ngay trên trình duyệt, không cần cài đặt.</p>
+        <div class="lp-hero__text">
+          <h1 id="hero-title">Học Tin học 12 bằng Python, viết mã là chạy ngay</h1>
+          <p class="lp-lead">Đọc bài, viết mã Python và nhận kết quả chấm ngay trên trình duyệt, không cần cài đặt.</p>
           <div class="lp-hero__cta">
-            <a class="btn btn--primary" href="/login.html">Bắt đầu học</a>
-            <a class="btn lp-btn-jade" href="#cach-hoat-dong">Tìm hiểu thêm</a>
+            <a class="btn btn--primary" href="/login.html">Đăng nhập</a>
+            <a class="btn" href="#cach-hoat-dong">Xem cách hoạt động</a>
           </div>
         </div>
         <div class="lp-hero__visual">
-          <div class="lp-stage lp-3d-stage">
-            <div class="lp-hud" aria-hidden="true">
-              <span class="lp-cube lp-cube--top1">&lt;/&gt;</span>
-              <span class="lp-cube lp-cube--top2">&lt;/&gt;</span>
-              <div class="lp-hud__meta">
-                <span>Test đạt: <b>3</b></span>
-                <span>Thời gian: <b>0s</b></span>
-                <span>Trạng thái: <b>Đạt</b></span>
-              </div>
+          <div class="lp-editor" id="lp-editor" role="group" aria-label="Ví dụ minh họa trình soạn mã">
+            <div class="lp-editor__bar" aria-hidden="true">
+              <span class="lp-editor__dots"><i></i><i></i><i></i></span>
+              <span class="lp-editor__file">main.py</span>
+              <span class="lp-editor__tag">Ví dụ minh họa</span>
             </div>
-            <div class="lp-cubes" aria-hidden="true">
-              <span class="lp-cube lp-cube--1">[ ]</span>
-              <span class="lp-cube lp-cube--2">&lt; &gt;</span>
-              <span class="lp-cube lp-cube--3">{ }</span>
-              <span class="lp-cube lp-cube--4">V_</span>
-              <span class="lp-cube lp-cube--5">&middot;&middot;&middot;</span>
+            <p class="sr-only">Ví dụ minh họa tệp main.py. Mã: n = int(input()); tong = 0; for i in range(1, n + 1): tong += i * i; print(tong). Với dữ liệu vào 5, kết quả là 55. Bộ kiểm tra 1, Bộ kiểm tra 2 và Bộ kiểm tra 3 đều đạt.</p>
+            <div class="lp-code" id="lp-code" aria-hidden="true">
+              <div class="lp-code__line"><span class="lp-code__no">1</span><span class="lp-code__src"><span>n = </span><span class="t-fn">int</span><span>(</span><span class="t-fn">input</span><span>())</span></span></div>
+              <div class="lp-code__line"><span class="lp-code__no">2</span><span class="lp-code__src"><span>tong = </span><span class="t-num">0</span></span></div>
+              <div class="lp-code__line"><span class="lp-code__no">3</span><span class="lp-code__src"><span class="t-kw">for</span><span> i </span><span class="t-kw">in</span><span> </span><span class="t-fn">range</span><span>(</span><span class="t-num">1</span><span>, n + </span><span class="t-num">1</span><span>):</span></span></div>
+              <div class="lp-code__line"><span class="lp-code__no">4</span><span class="lp-code__src"><span>    tong += i * i</span></span></div>
+              <div class="lp-code__line"><span class="lp-code__no">5</span><span class="lp-code__src"><span class="t-fn">print</span><span>(tong)</span></span></div>
             </div>
-
-            <div class="lp-editor" id="lp-editor" role="group" aria-label="Ví dụ minh họa trình soạn mã">
-              <div class="lp-editor__bar" aria-hidden="true">
-                <span class="lp-editor__file">main.py</span>
-                <span class="lp-editor__dots"><i></i><i></i><b>&times;</b></span>
-              </div>
-              <p class="sr-only">Ví dụ minh họa tệp main.py. Mã: print("Hello, DK Edu!"); def main(): print("Học Tin học 12 bằng Python!").</p>
-              <div class="lp-code" id="lp-code" aria-hidden="true">
-                <div class="lp-code__line"><span class="lp-code__no">1</span><span class="lp-code__src"><span class="t-fn">print</span><span>(</span><span class="t-num">"Hello, DK Edu!"</span><span>)</span></span></div>
-                <div class="lp-code__line"><span class="lp-code__no">2</span><span class="lp-code__src"><span></span></span></div>
-                <div class="lp-code__line"><span class="lp-code__no">3</span><span class="lp-code__src"><span class="t-kw">def</span><span> </span><span class="t-fn">main</span><span>():</span></span></div>
-                <div class="lp-code__line"><span class="lp-code__no">4</span><span class="lp-code__src"><span>    </span><span class="t-fn">print</span><span>(</span><span class="t-num">"Học Tin học 12 bằng Python!"</span><span>)</span></span></div>
-                <div class="lp-code__line"><span class="lp-code__no">5</span><span class="lp-code__src"><span></span></span></div>
-                <div class="lp-code__line"><span class="lp-code__no">6</span><span class="lp-code__src"><span></span></span></div>
-              </div>
-            </div>
-
-            <div class="lp-drums-3d" aria-hidden="true">
-              <div class="lp-drum lp-drum--sm">
-                <svg viewBox="0 0 100 100" focusable="false">
-                  <circle class="lp-drum__housing" cx="50" cy="50" r="46" stroke-width="2"></circle>
-                  <circle class="lp-drum__arc-sm" cx="50" cy="50" r="46" stroke-width="3.5" pathLength="100"></circle>
-                  <circle class="lp-drum__rim" cx="50" cy="50" r="37" stroke-width="3"></circle>
-                  <circle class="lp-drum__pat" cx="50" cy="50" r="29" stroke-width="5" stroke-dasharray="7 4"></circle>
-                  <circle class="lp-drum__pat" cx="50" cy="50" r="20" stroke-width="4" stroke-dasharray="5 3"></circle>
-                  <circle class="lp-drum__core" cx="50" cy="50" r="10" stroke-width="2.5"></circle>
-                </svg>
-              </div>
-              <div class="lp-drum lp-drum--lg">
-                <svg viewBox="0 0 120 120" focusable="false">
-                  <circle class="lp-drum__housing" cx="60" cy="60" r="55" stroke-width="2"></circle>
-                  <circle class="lp-drum__glow" cx="60" cy="60" r="52" stroke-width="5" pathLength="100"></circle>
-                  <circle class="lp-drum__rim" cx="60" cy="60" r="42" stroke-width="3"></circle>
-                  <circle class="lp-drum__pat" cx="60" cy="60" r="35" stroke-width="4" stroke-dasharray="3 2"></circle>
-                  <circle class="lp-drum__pat" cx="60" cy="60" r="27" stroke-width="5" stroke-dasharray="6 3"></circle>
-                  <circle class="lp-drum__pat" cx="60" cy="60" r="19" stroke-width="3" stroke-dasharray="4 2"></circle>
-                  <circle class="lp-drum__core" cx="60" cy="60" r="10" stroke-width="2"></circle>
-                  <path class="lp-drum__star" d="M60 46l2.2 9.2L70 50l-5.2 7.8L74 60l-9.2 2.2L70 70l-7.8-5.2L60 74l-2.2-9.2L50 70l5.2-7.8L46 60l9.2-2.2L50 50l7.8 5.2z"></path>
-                </svg>
-              </div>
+            <div class="lp-result" id="lp-result" aria-hidden="true">
+              <p class="lp-result__row"><span class="lp-result__k">Dữ liệu vào</span><span class="lp-result__v">5</span></p>
+              <p class="lp-result__row"><span class="lp-result__k">Kết quả</span><span class="lp-result__v lp-result__v--out">55</span></p>
+              <ul class="lp-result__tests">
+                <li><span data-icon="check"></span>Bộ kiểm tra 1: Đạt</li>
+                <li><span data-icon="check"></span>Bộ kiểm tra 2: Đạt</li>
+                <li><span data-icon="check"></span>Bộ kiểm tra 3: Đạt</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -154,46 +88,24 @@
     <section class="lp-strip" id="dai-niem-tin" aria-labelledby="strip-title">
       <h2 class="sr-only" id="strip-title">Điểm nổi bật của DK Edu</h2>
       <ul class="lp-wrap lp-strip__list">
-        <li class="lp-reveal lp-scrub-card"><span class="lp-strip__icon" data-icon="code"></span><span>Python chạy ngay trên trình duyệt</span></li>
-        <li class="lp-reveal lp-scrub-card"><span class="lp-strip__icon" data-icon="published"></span><span>Chấm theo bộ kiểm tra của giáo viên</span></li>
-        <li class="lp-reveal lp-scrub-card"><span class="lp-strip__icon" data-icon="auto"></span><span>Không cần cài đặt phần mềm</span></li>
-        <li class="lp-reveal lp-scrub-card"><span class="lp-strip__icon" data-icon="sun"></span><span>Giao diện sáng và tối</span></li>
+        <li class="lp-reveal"><span class="lp-strip__icon" data-icon="code"></span><span>Python chạy ngay trên trình duyệt</span></li>
+        <li class="lp-reveal"><span class="lp-strip__icon" data-icon="published"></span><span>Chấm theo bộ kiểm tra của giáo viên</span></li>
+        <li class="lp-reveal"><span class="lp-strip__icon" data-icon="auto"></span><span>Không cần cài đặt phần mềm</span></li>
+        <li class="lp-reveal"><span class="lp-strip__icon" data-icon="sun"></span><span>Giao diện sáng và tối</span></li>
       </ul>
     </section>
 
     <section class="lp-section" id="vai-tro" aria-labelledby="roles-title">
       <div class="lp-wrap lp-roles">
-        <div class="lp-roles__head lp-reveal lp-scrub">
+        <div class="lp-roles__head lp-reveal">
           <h2 id="roles-title">Mỗi người một việc, cùng một nơi</h2>
           <p class="lp-sub">Học sinh học và làm bài, giáo viên soạn bài và theo dõi lớp. Chọn vai trò để xem DK Edu giúp được gì.</p>
           <div class="lp-tabs" role="tablist" aria-label="Chọn vai trò" id="lp-tablist" hidden>
             <button type="button" role="tab" class="lp-tab" id="tab-hs" aria-selected="true" aria-controls="panel-hs" tabindex="0">Dành cho học sinh</button>
             <button type="button" role="tab" class="lp-tab" id="tab-gv" aria-selected="false" aria-controls="panel-gv" tabindex="-1">Dành cho giáo viên</button>
           </div>
-          <div class="lp-role-preview" aria-hidden="true">
-            <div class="lp-role-preview__head">
-              <span class="lp-role-preview__dots"><i></i><i></i><i></i></span>
-              <span>Không gian học &amp; quản lý lớp</span>
-            </div>
-            <div class="lp-role-preview__body">
-              <div class="lp-role-stat">
-                <svg class="lp-mini-ring" viewBox="0 0 44 44" focusable="false">
-                  <circle class="lp-mini-ring__track" cx="22" cy="22" r="17" stroke-width="4"></circle>
-                  <circle class="lp-mini-ring__val lp-mini-ring__val--75" cx="22" cy="22" r="17" stroke-width="4" pathLength="100"></circle>
-                </svg>
-                <div>
-                  <strong>Theo dõi trực quan</strong>
-                  <span>Tiến độ bài học &amp; bộ kiểm tra</span>
-                </div>
-              </div>
-              <div class="lp-role-bars">
-                <span class="lp-role-bar"><i class="lp-role-bar__fill lp-role-bar__fill--w85"></i></span>
-                <span class="lp-role-bar"><i class="lp-role-bar__fill lp-role-bar__fill--w65"></i></span>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="lp-roles__body lp-reveal lp-scrub">
+        <div class="lp-roles__body lp-reveal">
           <div role="tabpanel" class="lp-panel" id="panel-hs" aria-labelledby="tab-hs" tabindex="0">
             <h3 class="lp-panel__title">Dành cho học sinh</h3>
             <ul class="lp-benefits">
@@ -218,48 +130,36 @@
 
     <section class="lp-section lp-section--alt" id="cach-hoat-dong" aria-labelledby="steps-title">
       <div class="lp-wrap">
-        <div class="lp-head lp-reveal lp-scrub">
+        <div class="lp-head lp-reveal">
           <h2 id="steps-title">Cách hoạt động</h2>
           <p class="lp-sub">Ba bước từ lúc giáo viên giao bài đến lúc có kết quả.</p>
         </div>
         <div class="lp-steps-wrap">
-        <div class="lp-steps__line" id="lp-line" aria-hidden="true"></div>
-        <ol class="lp-steps">
-          <li class="lp-reveal lp-scrub-card">
-            <span class="lp-steps__num" aria-hidden="true">1</span>
-            <h3>Giáo viên soạn và giao bài</h3>
-            <p>Tạo bài học có tóm tắt, lưu ý và bài tập kèm bộ kiểm tra, rồi giao cho cả lớp hoặc từng lớp.</p>
-            <div class="lp-step-gfx" aria-hidden="true">
-              <span class="lp-step-chip"><span data-icon="pencil"></span>Soạn 4 bước</span>
-              <span class="lp-step-chip lp-step-chip--accent"><span data-icon="send"></span>Giao lớp 12A</span>
-            </div>
-          </li>
-          <li class="lp-reveal lp-scrub-card">
-            <span class="lp-steps__num" aria-hidden="true">2</span>
-            <h3>Học sinh đọc, viết mã, chạy thử</h3>
-            <p>Học sinh đọc bài, viết mã Python trong trình duyệt và chạy thử với dữ liệu vào của mình.</p>
-            <div class="lp-step-gfx" aria-hidden="true">
-              <span class="lp-step-chip"><span data-icon="code"></span>main.py</span>
-              <span class="lp-step-chip lp-step-chip--accent"><span data-icon="auto"></span>Chạy thử ngay</span>
-            </div>
-          </li>
-          <li class="lp-reveal lp-scrub-card">
-            <span class="lp-steps__num" aria-hidden="true">3</span>
-            <h3>Hệ thống chấm theo bộ kiểm tra, giáo viên theo dõi tiến độ</h3>
-            <p>Mỗi bộ kiểm tra cho biết đạt hay chưa đạt; giáo viên xem bảng tiến độ của cả lớp.</p>
-            <div class="lp-step-gfx" aria-hidden="true">
-              <span class="lp-step-chip lp-step-chip--ok"><span data-icon="check"></span>Đạt 3/3 bộ</span>
-              <span class="lp-step-chip"><span data-icon="chart"></span>Bảng tiến độ</span>
-            </div>
-          </li>
-        </ol>
+          <div class="lp-steps__line" id="lp-line" aria-hidden="true"></div>
+          <ol class="lp-steps">
+            <li class="lp-reveal">
+              <span class="lp-steps__num" aria-hidden="true">1</span>
+              <h3>Giáo viên soạn và giao bài</h3>
+              <p>Tạo bài học có tóm tắt, lưu ý và bài tập kèm bộ kiểm tra, rồi giao cho cả lớp hoặc từng lớp.</p>
+            </li>
+            <li class="lp-reveal">
+              <span class="lp-steps__num" aria-hidden="true">2</span>
+              <h3>Học sinh đọc, viết mã, chạy thử</h3>
+              <p>Học sinh đọc bài, viết mã Python trong trình duyệt và chạy thử với dữ liệu vào của mình.</p>
+            </li>
+            <li class="lp-reveal">
+              <span class="lp-steps__num" aria-hidden="true">3</span>
+              <h3>Hệ thống chấm theo bộ kiểm tra, giáo viên theo dõi tiến độ</h3>
+              <p>Mỗi bộ kiểm tra cho biết đạt hay chưa đạt; giáo viên xem bảng tiến độ của cả lớp.</p>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
 
     <section class="lp-section" id="tinh-nang" aria-labelledby="features-title">
       <div class="lp-wrap">
-        <div class="lp-head lp-reveal lp-scrub">
+        <div class="lp-head lp-reveal">
           <h2 id="features-title">Những gì có sẵn trong DK Edu</h2>
           <p class="lp-sub">Sáu việc giáo viên và học sinh làm hằng ngày.</p>
         </div>
@@ -268,105 +168,53 @@
             <h3>Soạn bài có xem trước</h3>
             <p>Soạn tóm tắt, lưu ý và bài tập theo từng bước. Khung xem trước bên cạnh hiện đúng những gì học sinh sẽ thấy.</p>
             <div class="lp-ill lp-ill--split" aria-hidden="true">
-              <div class="lp-ill__pane">
-                <div class="lp-ill__top">
-                  <span class="lp-ill__label">Soạn</span>
-                  <span class="lp-step-dots"><i>1</i><i>2</i><i>3</i><i>4</i></span>
-                </div>
-                <i class="bar bar--w90"></i>
-                <i class="bar bar--w70"></i>
-                <div class="lp-mini-code">
-                  <i class="bar bar--w80"></i>
-                  <i class="bar bar--w40"></i>
-                </div>
-              </div>
-              <div class="lp-ill__pane lp-ill__pane--alt">
-                <div class="lp-ill__top">
-                  <span class="lp-ill__label">Xem trước</span>
-                  <span class="lp-sync-tag"><span data-icon="check"></span>Khớp 100%</span>
-                </div>
-                <i class="bar bar--head"></i>
-                <i class="bar bar--w90"></i>
-                <i class="bar bar--w70"></i>
-                <i class="bar bar--w80"></i>
-              </div>
+              <div class="lp-ill__pane"><span class="lp-ill__label">Soạn</span><i class="bar bar--w90"></i><i class="bar bar--w70"></i><i class="bar bar--w80"></i><i class="bar bar--w40"></i></div>
+              <div class="lp-ill__pane lp-ill__pane--alt"><span class="lp-ill__label">Xem trước</span><i class="bar bar--head"></i><i class="bar bar--w90"></i><i class="bar bar--w70"></i><i class="bar bar--w80"></i></div>
             </div>
           </article>
           <article class="lp-tile lp-tile--b">
             <h3>Giao bài và hạn nộp</h3>
             <p>Giao bài tập cho cả lớp hoặc từng lớp, đặt hạn nộp nếu cần.</p>
             <ul class="lp-ill lp-ill--list" aria-hidden="true">
-              <li>
-                <div class="lp-assign-row">
-                  <span>Cả lớp</span>
-                  <span class="lp-pill">Có hạn nộp</span>
-                </div>
-                <span class="lp-assign-bar"><i class="lp-assign-bar__fill lp-assign-bar__fill--w80"></i></span>
-              </li>
-              <li>
-                <div class="lp-assign-row">
-                  <span>Từng lớp</span>
-                  <span class="lp-pill">Không hạn</span>
-                </div>
-                <span class="lp-assign-bar"><i class="lp-assign-bar__fill lp-assign-bar__fill--w55"></i></span>
-              </li>
+              <li>Cả lớp<span class="lp-pill">Có hạn nộp</span></li>
+              <li>Từng lớp<span class="lp-pill">Không hạn</span></li>
             </ul>
           </article>
           <article class="lp-tile lp-tile--c">
             <h3>Chấm tự động theo bộ kiểm tra</h3>
             <p>Bài làm được so với bộ kiểm tra giáo viên đặt ra. Học sinh biết ngay bộ nào đạt.</p>
-            <div class="lp-ill lp-ill--tests-wrap" aria-hidden="true">
-              <div class="lp-test-summary">
-                <svg class="lp-mini-ring" viewBox="0 0 44 44" focusable="false">
-                  <circle class="lp-mini-ring__track" cx="22" cy="22" r="17" stroke-width="4"></circle>
-                  <circle class="lp-mini-ring__val lp-mini-ring__val--66" cx="22" cy="22" r="17" stroke-width="4" pathLength="100"></circle>
-                </svg>
-                <span>Kết quả: 2/3 bộ đạt</span>
-              </div>
-              <ul class="lp-ill--tests">
-                <li class="is-pass"><span data-icon="check"></span><span>Bộ kiểm tra 1: Đạt</span><span class="lp-ms">12ms</span></li>
-                <li class="is-pass"><span data-icon="check"></span><span>Bộ kiểm tra 2: Đạt</span><span class="lp-ms">15ms</span></li>
-                <li class="is-fail"><span data-icon="x"></span><span>Bộ kiểm tra 3: Chưa đạt</span><span class="lp-ms">18ms</span></li>
-              </ul>
-            </div>
+            <ul class="lp-ill lp-ill--tests" aria-hidden="true">
+              <li class="is-pass"><span data-icon="check"></span>Bộ kiểm tra 1: Đạt</li>
+              <li class="is-pass"><span data-icon="check"></span>Bộ kiểm tra 2: Đạt</li>
+              <li class="is-fail"><span data-icon="x"></span>Bộ kiểm tra 3: Chưa đạt</li>
+            </ul>
           </article>
           <article class="lp-tile lp-tile--d">
             <h3>Theo dõi tiến độ cả lớp</h3>
             <p>Bảng tiến độ cho thấy ai đã đạt, ai đang làm, ai chưa bắt đầu, và xuất được ra tệp CSV.</p>
-            <div class="lp-ill lp-ill--matrix" aria-hidden="true">
-              <div class="lp-matrix-bar">
-                <i class="lp-matrix-seg lp-matrix-seg--pass"></i>
-                <i class="lp-matrix-seg lp-matrix-seg--doing"></i>
-                <i class="lp-matrix-seg lp-matrix-seg--todo"></i>
-              </div>
-              <ul class="lp-ill--grid">
-                <li class="is-pass"><span data-icon="check"></span>Đạt</li>
-                <li class="is-doing"><span data-icon="half"></span>Đang làm</li>
-                <li class="is-todo"><span data-icon="circle"></span>Chưa làm</li>
-                <li class="is-pass"><span data-icon="check"></span>Đạt</li>
-                <li class="is-pass"><span data-icon="check"></span>Đạt</li>
-                <li class="is-doing"><span data-icon="half"></span>Đang làm</li>
-              </ul>
-            </div>
+            <ul class="lp-ill lp-ill--grid" aria-hidden="true">
+              <li class="is-pass"><span data-icon="check"></span>Đạt</li>
+              <li class="is-doing"><span data-icon="half"></span>Đang làm</li>
+              <li class="is-todo"><span data-icon="circle"></span>Chưa làm</li>
+              <li class="is-pass"><span data-icon="check"></span>Đạt</li>
+              <li class="is-pass"><span data-icon="check"></span>Đạt</li>
+              <li class="is-doing"><span data-icon="half"></span>Đang làm</li>
+            </ul>
           </article>
           <article class="lp-tile lp-tile--e">
             <h3>Xem trước như học sinh</h3>
             <p>Mở bài học đúng như học sinh thấy để kiểm tra trước khi giao. Kết quả làm thử không được lưu.</p>
             <div class="lp-ill lp-ill--preview" aria-hidden="true">
-              <span class="lp-fakebtn"><span data-icon="eye"></span>Xem như học sinh (xem trước)</span>
-              <span class="lp-fakebanner"><span data-icon="info"></span>Chế độ xem trước</span>
+              <span class="lp-fakebtn">Xem như học sinh (xem trước)</span>
+              <span class="lp-fakebanner">Chế độ xem trước</span>
             </div>
           </article>
           <article class="lp-tile lp-tile--f">
             <h3>Chế độ sáng và tối</h3>
             <p>Chọn giao diện sáng, tối hoặc theo thiết lập của thiết bị. Lựa chọn được nhớ cho lần sau.</p>
             <div class="lp-ill lp-ill--theme" aria-hidden="true">
-              <div class="lp-half lp-half--light">
-                <span class="lp-half__card"><span data-icon="sun"></span><span>Sáng</span></span>
-              </div>
-              <div class="lp-half lp-half--dark">
-                <span class="lp-half__card"><span data-icon="moon"></span><span>Tối</span></span>
-              </div>
+              <div class="lp-half lp-half--light"><span>Sáng</span></div>
+              <div class="lp-half lp-half--dark"><span>Tối</span></div>
             </div>
           </article>
         </div>
@@ -375,11 +223,11 @@
 
     <section class="lp-section lp-section--alt" id="hoi-dap" aria-labelledby="faq-title">
       <div class="lp-wrap lp-faq">
-        <div class="lp-faq__head lp-reveal lp-scrub">
+        <div class="lp-faq__head lp-reveal">
           <h2 id="faq-title">Câu hỏi thường gặp</h2>
           <p class="lp-sub">Những điều học sinh và giáo viên hay hỏi trước khi bắt đầu.</p>
         </div>
-        <div class="lp-faq__list lp-reveal lp-scrub">
+        <div class="lp-faq__list lp-reveal">
           <details class="lp-qa">
             <summary>Tôi cần cài gì để chạy mã Python?</summary>
             <p>Bạn không cần cài gì cả. Python chạy ngay trong trình duyệt; lần đầu mở bài tập, trình chạy được tải về nên có thể mất vài giây và cần kết nối Internet.</p>
@@ -409,7 +257,7 @@
     </section>
 
     <section class="lp-cta" id="bat-dau" aria-labelledby="cta-title">
-      <div class="lp-wrap lp-cta__box lp-reveal lp-scrub">
+      <div class="lp-wrap lp-cta__box lp-reveal">
         <h2 id="cta-title">Sẵn sàng vào lớp?</h2>
         <p>Đăng nhập bằng tài khoản giáo viên đã cấp để bắt đầu học hoặc soạn bài.</p>
         <a class="btn btn--accent" href="/login.html">Đăng nhập</a>

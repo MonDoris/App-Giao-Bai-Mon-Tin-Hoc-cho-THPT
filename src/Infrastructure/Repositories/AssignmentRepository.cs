@@ -15,11 +15,12 @@ public sealed class AssignmentRepository : IAssignmentRepository
         _db = db;
     }
 
-    public async Task<IReadOnlyList<StudentAssignmentRow>> GetVisibleForStudentAsync(int studentId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<StudentAssignmentRow>> GetVisibleForStudentAsync(int studentId, DateTime nowUtc, CancellationToken cancellationToken = default)
     {
         return await _db.Assignments
             .AsNoTracking()
             .Where(a => a.CancelledUtc == null
+                && (a.StartAtUtc == null || a.StartAtUtc <= nowUtc)
                 && a.Exercise!.IsPublished && !a.Exercise.IsArchived
                 && a.Exercise.Lesson!.IsPublished && !a.Exercise.Lesson.IsArchived
                 && (a.AssignedToAll

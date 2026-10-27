@@ -13,6 +13,7 @@ internal sealed class AssignmentConfiguration : IEntityTypeConfiguration<Assignm
         builder.Property(a => a.Id).ValueGeneratedOnAdd();
         builder.Property(a => a.ExerciseId).HasMaxLength(100).IsRequired();
         builder.Property(a => a.AssignedToAll).IsRequired();
+        builder.Property(a => a.StartAtUtc);
         builder.Property(a => a.DueAtUtc);
         builder.Property(a => a.Note).HasMaxLength(500);
         builder.Property(a => a.CreatedByUserId).IsRequired();

@@ -355,8 +355,11 @@ public class AssignmentUseCaseTests
         return (w, gv, new AssignmentUseCase(w.LessonRepo, w.AssignmentRepo, w.ClassRepo, w.UnitOfWork, w.Clock));
     }
 
-    private static AssignInputDto Input(string[] exercises, bool all = true, int[]? classes = null, DateTime? due = null, string? note = null) =>
-        new(exercises, new AssignmentTargetDto(all, classes), due, note);
+    // Hạn nộp bắt buộc: không truyền due thì dùng một hạn rất xa để các test khác chỉ kiểm tra điều chúng quan tâm.
+    private static readonly DateTime FarDue = new(2100, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+    private static AssignInputDto Input(string[] exercises, bool all = true, int[]? classes = null, DateTime? due = null, string? note = null, DateTime? start = null) =>
+        new(exercises, new AssignmentTargetDto(all, classes), due ?? FarDue, note, start);
 
     [Fact]
     public async Task Assign_creates_one_assignment_per_exercise_for_all_students()
@@ -399,6 +402,13 @@ public class AssignmentUseCaseTests
         await Assert.ThrowsAsync<ValidationFailedException>(() => useCase.AssignAsync(user, Input(new[] { "bai-01-bt1" }, note: new string('n', 501))));
         await Assert.ThrowsAsync<NotFoundException>(() => useCase.AssignAsync(user, Input(new[] { "khong-co" })));
 
+        // Hạn nộp bắt buộc và phải sau ngày bắt đầu
+        var noDue = await Assert.ThrowsAsync<ValidationFailedException>(() => useCase.AssignAsync(user, new AssignInputDto(new[] { "bai-01-bt1" }, new AssignmentTargetDto(true, null), null, null)));
+        Assert.Contains(noDue.Errors, e => e.Field == "dueAt");
+        var start = w.Clock.UtcNow.AddDays(2);
+        await Assert.ThrowsAsync<ValidationFailedException>(() => useCase.AssignAsync(user, Input(new[] { "bai-01-bt1" }, due: start.AddHours(-1), start: start)));
+        await Assert.ThrowsAsync<ValidationFailedException>(() => useCase.AssignAsync(user, Input(new[] { "bai-01-bt1" }, due: start, start: start)));
+
         w.Lessons[0].Exercises.First().IsPublished = false;
         var ex = await Assert.ThrowsAsync<ValidationFailedException>(() => useCase.AssignAsync(user, Input(new[] { "bai-01-bt1" })));
         Assert.Equal("EXERCISE_NOT_PUBLISHED", ex.Code);
@@ -436,6 +446,37 @@ public class AssignmentUseCaseTests
         Assert.Equal("mới", updated.Note);
         Assert.NotNull(updated.DueAt);
         await Assert.ThrowsAsync<NotFoundException>(() => useCase.UpdateAsync(World.AsTeacher(gv), 999, new UpdateAssignmentInputDto(new AssignmentTargetDto(true, null), null, null)));
+
+        // Khi sửa: hạn nộp vẫn bắt buộc và phải sau ngày bắt đầu
+        await Assert.ThrowsAsync<ValidationFailedException>(() => useCase.UpdateAsync(World.AsTeacher(gv), a.Id, new UpdateAssignmentInputDto(new AssignmentTargetDto(true, null), null, null)));
+        var start = w.Clock.UtcNow.AddDays(3);
+        await Assert.ThrowsAsync<ValidationFailedException>(() => useCase.UpdateAsync(World.AsTeacher(gv), a.Id, new UpdateAssignmentInputDto(new AssignmentTargetDto(true, null), start.AddDays(-1), null, start)));
+        var moved = await useCase.UpdateAsync(World.AsTeacher(gv), a.Id, new UpdateAssignmentInputDto(new AssignmentTargetDto(true, null), start.AddDays(2), null, start));
+        Assert.Equal(start, moved.StartAt);
+    }
+
+    [Fact]
+    public async Task Start_defaults_to_now_and_students_only_see_the_exercise_from_the_start_date()
+    {
+        var (w, gv, useCase) = Create();
+        var hs = w.AddUser("hs01");
+
+        var now = await useCase.AssignAsync(World.AsTeacher(gv), Input(new[] { "bai-01-bt1" }, due: w.Clock.UtcNow.AddDays(7)));
+        Assert.Equal(w.Clock.UtcNow, now.Assignments.Single().StartAt);
+
+        var start = w.Clock.UtcNow.AddDays(1);
+        var later = await useCase.AssignAsync(World.AsTeacher(gv), Input(new[] { "bai-01-bt2" }, due: start.AddDays(7), start: start));
+        Assert.Equal(start, later.Assignments.Single().StartAt);
+
+        async Task<int> Visible() => (await UseCases.Lessons(w).ExecuteAsync(World.AsStudent(hs))).Lessons.Single(l => l.Id == "bai-01").ExerciseCount;
+        Assert.Equal(1, await Visible());
+
+        // Giao lại bài đã mở với ngày bắt đầu muộn hơn: vẫn mở (không ẩn bài học sinh đang làm)
+        await useCase.AssignAsync(World.AsTeacher(gv), Input(new[] { "bai-01-bt1" }, due: w.Clock.UtcNow.AddDays(9), start: w.Clock.UtcNow.AddDays(5)));
+        Assert.Equal(1, await Visible());
+
+        w.Clock.Advance(TimeSpan.FromDays(1));
+        Assert.Equal(2, await Visible());
     }
 
     [Fact]

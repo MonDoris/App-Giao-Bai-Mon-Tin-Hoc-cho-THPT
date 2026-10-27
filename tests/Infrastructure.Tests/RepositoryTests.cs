@@ -40,8 +40,8 @@ public class AssignmentRepositoryTests
 
         await using var read = db.CreateContext();
         var repo = new AssignmentRepository(read);
-        Assert.Equal(new[] { "b-1-bt1", "b-1-bt2", "b-2-bt1" }, (await repo.GetVisibleForStudentAsync(hs1.Id)).Select(r => r.ExerciseId).OrderBy(x => x));
-        Assert.Equal(new[] { "b-1-bt1", "b-2-bt1" }, (await repo.GetVisibleForStudentAsync(hs2.Id)).Select(r => r.ExerciseId).OrderBy(x => x));
+        Assert.Equal(new[] { "b-1-bt1", "b-1-bt2", "b-2-bt1" }, (await repo.GetVisibleForStudentAsync(hs1.Id, DateTime.UtcNow)).Select(r => r.ExerciseId).OrderBy(x => x));
+        Assert.Equal(new[] { "b-1-bt1", "b-2-bt1" }, (await repo.GetVisibleForStudentAsync(hs2.Id, DateTime.UtcNow)).Select(r => r.ExerciseId).OrderBy(x => x));
 
         await using (var upd = db.CreateContext())
         {
@@ -52,7 +52,7 @@ public class AssignmentRepositoryTests
         }
 
         await using var read2 = db.CreateContext();
-        Assert.Empty(await new AssignmentRepository(read2).GetVisibleForStudentAsync(hs1.Id));
+        Assert.Empty(await new AssignmentRepository(read2).GetVisibleForStudentAsync(hs1.Id, DateTime.UtcNow));
     }
 
     [Fact]
@@ -67,10 +67,10 @@ public class AssignmentRepositoryTests
         }
 
         await using var ctx2 = db.CreateContext();
-        Assert.Empty(await new AssignmentRepository(ctx2).GetVisibleForStudentAsync(hs2.Id));
+        Assert.Empty(await new AssignmentRepository(ctx2).GetVisibleForStudentAsync(hs2.Id, DateTime.UtcNow));
         await new ClassRepository(ctx2).ReplaceMembershipsAsync(hs2.Id, new[] { c1.Id, c2.Id });
         await ctx2.SaveChangesAsync();
-        Assert.Single(await new AssignmentRepository(ctx2).GetVisibleForStudentAsync(hs2.Id));
+        Assert.Single(await new AssignmentRepository(ctx2).GetVisibleForStudentAsync(hs2.Id, DateTime.UtcNow));
         Assert.Equal(2, (await new ClassRepository(ctx2).GetClassesOfStudentsAsync(new[] { hs2.Id }))[hs2.Id].Count);
         Assert.NotNull(hs1);
     }

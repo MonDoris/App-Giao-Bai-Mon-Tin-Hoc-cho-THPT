@@ -25,7 +25,7 @@ public sealed class GetMyAssignmentsUseCase
     public async Task<MyAssignmentListDto> ExecuteAsync(CurrentUser user, CancellationToken cancellationToken = default)
     {
         user.RequireStudent();
-        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, cancellationToken);
+        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, _clock.UtcNow, cancellationToken);
         var effective = AssignmentRules.PickEffective(rows).Values.ToList();
         var stats = await _submissions.GetStatsAsync(user.Id, cancellationToken);
         var viewed = await _submissions.GetViewedSolutionExerciseIdsAsync(user.Id, cancellationToken);

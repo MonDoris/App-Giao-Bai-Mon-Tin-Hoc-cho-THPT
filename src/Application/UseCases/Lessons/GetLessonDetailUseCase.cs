@@ -46,7 +46,7 @@ public sealed class GetLessonDetailUseCase
             throw new NotFoundException("Không tìm thấy bài học.");
         }
 
-        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, cancellationToken);
+        var rows = await _assignments.GetVisibleForStudentAsync(user.Id, _clock.UtcNow, cancellationToken);
         var effective = AssignmentRules.PickEffective(rows.Where(r => r.LessonId == lesson.Id));
         var stats = await _submissions.GetStatsAsync(user.Id, cancellationToken);
         var viewed = await _submissions.GetViewedSolutionExerciseIdsAsync(user.Id, cancellationToken);

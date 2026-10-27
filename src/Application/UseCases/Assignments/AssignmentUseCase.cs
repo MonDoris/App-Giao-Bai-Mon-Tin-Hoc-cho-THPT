@@ -7,7 +7,10 @@ using TinHoc12.Domain.Entities;
 
 namespace TinHoc12.Application.UseCases.Assignments;
 
-/// <summary>Giao bài cho học sinh (AC-128, 130): giao, sửa hạn/ghi chú/đối tượng, hủy giao, liệt kê.</summary>
+/// <summary>
+/// Giao bài cho học sinh (AC-128, 130): giao, sửa ngày bắt đầu/hạn/ghi chú/đối tượng, hủy giao, liệt kê.
+/// Hạn nộp bắt buộc và phải sau ngày bắt đầu; học sinh chỉ thấy bài từ ngày bắt đầu (bỏ trống = ngay lúc giao).
+/// </summary>
 public sealed class AssignmentUseCase
 {
     private const int MaxExercisesPerRequest = 200;
@@ -50,10 +53,19 @@ public sealed class AssignmentUseCase
 
         var (all, classIds) = ReadTarget(input.Target, errors);
         var note = errors.Text("note", "Ghi chú", input.Note, MaxNoteLength, required: false, allowMultiline: true);
-        var due = NormalizeDue(input.DueAt);
-        if (due is { } d && d <= now)
+        var start = NormalizeUtc(input.StartAt) ?? now;
+        var due = NormalizeUtc(input.DueAt);
+        if (due is null)
+        {
+            errors.Add("dueAt", "Hãy chọn hạn nộp.");
+        }
+        else if (due <= now)
         {
             errors.Add("dueAt", "Hạn nộp phải sau thời điểm hiện tại.");
+        }
+        else if (due <= start)
+        {
+            errors.Add("dueAt", "Hạn nộp phải sau ngày bắt đầu.");
         }
 
         errors.ThrowIfAny();
@@ -83,10 +95,16 @@ public sealed class AssignmentUseCase
         var touched = new List<Assignment>();
         foreach (var exercise in exercises)
         {
-            // Giao lại cùng đối tượng thì cập nhật hạn/ghi chú thay vì tạo trùng.
+            // Giao lại cùng đối tượng thì cập nhật ngày bắt đầu/hạn/ghi chú thay vì tạo trùng.
+            // Lượt giao đã mở thì giữ nguyên là đã mở: học sinh đang làm không bị mất bài (muốn dời ngày mở thì dùng Sửa).
             var same = existing.FirstOrDefault(a => a.ExerciseId == exercise.Id && SameTarget(a, all, classIds));
             if (same is not null)
             {
+                if (same.StartAtUtc is { } opensAt && opensAt > now)
+                {
+                    same.StartAtUtc = start;
+                }
+
                 same.DueAtUtc = due;
                 same.Note = NullIfEmpty(note);
                 touched.Add(same);
@@ -97,6 +115,7 @@ public sealed class AssignmentUseCase
             {
                 ExerciseId = exercise.Id,
                 AssignedToAll = all,
+                StartAtUtc = start,
                 DueAtUtc = due,
                 Note = NullIfEmpty(note),
                 CreatedByUserId = user.Id,
@@ -141,11 +160,23 @@ public sealed class AssignmentUseCase
         var errors = new FieldErrors();
         var (all, classIds) = ReadTarget(input.Target, errors);
         var note = errors.Text("note", "Ghi chú", input.Note, MaxNoteLength, required: false, allowMultiline: true);
+        // Không gửi StartAt thì giữ ngày bắt đầu cũ. Khi sửa được phép đặt hạn về quá khứ (giao diện cảnh báo).
+        var start = NormalizeUtc(input.StartAt) ?? assignment.StartAtUtc;
+        var due = NormalizeUtc(input.DueAt);
+        if (due is null)
+        {
+            errors.Add("dueAt", "Hãy chọn hạn nộp.");
+        }
+        else if (start is { } s && due <= s)
+        {
+            errors.Add("dueAt", "Hạn nộp phải sau ngày bắt đầu.");
+        }
+
         errors.ThrowIfAny();
         await EnsureClassesExistAsync(classIds, cancellationToken);
 
-        // Khi sửa được phép đặt hạn về quá khứ (giao diện cảnh báo).
-        assignment.DueAtUtc = NormalizeDue(input.DueAt);
+        assignment.StartAtUtc = start;
+        assignment.DueAtUtc = due;
         assignment.Note = NullIfEmpty(note);
         assignment.AssignedToAll = all;
         var wanted = all ? new HashSet<int>() : classIds.ToHashSet();
@@ -209,9 +240,9 @@ public sealed class AssignmentUseCase
         }
     }
 
-    private static DateTime? NormalizeDue(DateTime? due) => due is null
+    private static DateTime? NormalizeUtc(DateTime? value) => value is null
         ? null
-        : due.Value.Kind == DateTimeKind.Local ? due.Value.ToUniversalTime() : DateTime.SpecifyKind(due.Value, DateTimeKind.Utc);
+        : value.Value.Kind == DateTimeKind.Local ? value.Value.ToUniversalTime() : DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
 
     private static string? NullIfEmpty(string? text) => string.IsNullOrWhiteSpace(text) ? null : text;
 
@@ -243,6 +274,7 @@ public sealed class AssignmentUseCase
             a.CancelledUtc,
             row.AssignedStudents,
             row.SubmittedStudents,
-            row.PassedStudents);
+            row.PassedStudents,
+            a.StartAtUtc);
     }
 }

@@ -253,6 +253,44 @@ public class TeacherFlowTests
     };
 
     [Fact]
+    public async Task Due_date_is_required_and_students_only_see_the_exercise_from_the_start_date()
+    {
+        using var factory = new AppFactory();
+        var teacher = factory.NewBrowser();
+        await teacher.LoginOkAsync(Accounts.Teacher, Accounts.TeacherPassword);
+        var lesson = await TestBrowser.JsonAsync(await teacher.PostAsync("/api/teacher/lessons", LessonBody("Bài Hẹn Giờ")));
+        var lessonId = lesson["id"].Str();
+        var exerciseId = (await TestBrowser.JsonAsync(await teacher.PostAsync($"/api/teacher/lessons/{lessonId}/exercises", ExerciseBody("Mở sau"))))["id"].Str();
+        await teacher.PatchAsync($"/api/teacher/lessons/{lessonId}/publish", new { isPublished = true });
+        await teacher.PatchAsync($"/api/teacher/exercises/{exerciseId}/publish", new { isPublished = true });
+        var target = new { all = true, classIds = Array.Empty<int>() };
+
+        // Thiếu hạn nộp, hoặc hạn nộp không sau ngày bắt đầu: 422 trên trường dueAt
+        var start = factory.Clock.UtcNow.AddHours(1);
+        foreach (var body in new object[] { new { exerciseIds = new[] { exerciseId }, target }, new { exerciseIds = new[] { exerciseId }, target, startAt = start, dueAt = start } })
+        {
+            var bad = await teacher.PostAsync("/api/teacher/assignments", body);
+            Assert.Equal(HttpStatusCode.UnprocessableEntity, bad.StatusCode);
+            Assert.Equal("dueAt", (await TestBrowser.JsonAsync(bad))["field"].Str());
+        }
+
+        var assigned = await TestBrowser.JsonAsync(await teacher.PostAsync("/api/teacher/assignments", new { exerciseIds = new[] { exerciseId }, target, startAt = start, dueAt = start.AddDays(1) }));
+        Assert.Equal(start, assigned["assignments"]![0]!["startAt"]!.GetValue<DateTime>().ToUniversalTime());
+
+        // Trước ngày bắt đầu: học sinh không thấy và không nộp được
+        var hs = factory.NewBrowser();
+        await hs.LoginOkAsync("hs01", Accounts.StudentPassword);
+        var submission = new { code = "print(1)", passedTests = 3, totalTests = 3 };
+        Assert.DoesNotContain((await TestBrowser.JsonAsync(await hs.GetAsync("/api/me/assignments")))["assignments"]!.AsArray(), r => r!["exerciseId"].Str() == exerciseId);
+        Assert.NotEqual(HttpStatusCode.Created, (await hs.PostAsync($"/api/exercises/{exerciseId}/submissions", submission)).StatusCode);
+
+        // Từ ngày bắt đầu: thấy và nộp được
+        factory.Clock.Advance(TimeSpan.FromHours(2));
+        Assert.Contains((await TestBrowser.JsonAsync(await hs.GetAsync("/api/me/assignments")))["assignments"]!.AsArray(), r => r!["exerciseId"].Str() == exerciseId);
+        Assert.Equal(HttpStatusCode.Created, (await hs.PostAsync($"/api/exercises/{exerciseId}/submissions", submission)).StatusCode);
+    }
+
+    [Fact]
     public async Task Full_flow_author_publish_assign_submit_and_see_progress()
     {
         using var factory = new AppFactory();
@@ -291,7 +329,7 @@ public class TeacherFlowTests
         Assert.Equal(HttpStatusCode.NotFound, (await em.GetAsync($"/api/lessons/{lessonId}")).StatusCode);
 
         // Bài tập chưa xuất bản không giao được
-        var early = await teacher.PostAsync("/api/teacher/assignments", new { exerciseIds = new[] { exerciseId }, target = new { all = false, classIds = new[] { cls["id"].Int() } } });
+        var early = await teacher.PostAsync("/api/teacher/assignments", new { exerciseIds = new[] { exerciseId }, target = new { all = false, classIds = new[] { cls["id"].Int() } }, dueAt = factory.Clock.UtcNow.AddDays(7) });
         Assert.Equal(HttpStatusCode.UnprocessableEntity, early.StatusCode);
         Assert.Equal("EXERCISE_NOT_PUBLISHED", (await TestBrowser.JsonAsync(early))["error"].Str());
 
@@ -379,7 +417,7 @@ public class TeacherFlowTests
         var exercise = await TestBrowser.JsonAsync(await teacher.PostAsync($"/api/teacher/lessons/{lessonId}/exercises", ExerciseBody(xss, statement: xss)));
         await teacher.PatchAsync($"/api/teacher/lessons/{lessonId}/publish", new { isPublished = true });
         await teacher.PatchAsync($"/api/teacher/exercises/{exercise["id"].Str()}/publish", new { isPublished = true });
-        await teacher.PostAsync("/api/teacher/assignments", new { exerciseIds = new[] { exercise["id"].Str() }, target = new { all = true, classIds = Array.Empty<int>() }, note = xss });
+        await teacher.PostAsync("/api/teacher/assignments", new { exerciseIds = new[] { exercise["id"].Str() }, target = new { all = true, classIds = Array.Empty<int>() }, dueAt = factory.Clock.UtcNow.AddDays(7), note = xss });
         var name = await TestStudents.CreateAsync(teacher, "xss.hs", xss, "Matkhau2026");
 
         var hs = factory.NewBrowser();
@@ -463,7 +501,7 @@ public class TeacherFlowTests
         }));
         await teacher.PatchAsync($"/api/teacher/lessons/{lessonId}/publish", new { isPublished = true });
         await teacher.PatchAsync($"/api/teacher/exercises/{plain["id"].Str()}/publish", new { isPublished = true });
-        await teacher.PostAsync("/api/teacher/assignments", new { exerciseIds = new[] { plain["id"].Str() }, target = new { all = true, classIds = Array.Empty<int>() } });
+        await teacher.PostAsync("/api/teacher/assignments", new { exerciseIds = new[] { plain["id"].Str() }, target = new { all = true, classIds = Array.Empty<int>() }, dueAt = factory.Clock.UtcNow.AddDays(7) });
         var hs = factory.NewBrowser();
         await hs.LoginOkAsync("hs02", Accounts.StudentPassword);
         var detail = await TestBrowser.JsonAsync(await hs.GetAsync($"/api/lessons/{lessonId}"));
