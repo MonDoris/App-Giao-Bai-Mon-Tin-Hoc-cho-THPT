@@ -1,12 +1,12 @@
 // Bài học của tôi: thẻ tổng quan, thanh công cụ (tìm, lọc trạng thái, Lưới/Danh sách) và thẻ bài học có độ hoàn thiện.
 // Hành vi (xuất bản, lưu trữ, đổi thứ tự, xóa, xác nhận khi ẩn bài đang giao) giữ nguyên; API không đổi.
-import { api } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, skeleton } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { confirmDialog } from '/js/modal.js';
-import { uiPrefs } from '/js/storage.js';
-import { debounce, formatDateTime, stateChip } from '/js/ui.js';
+import { api } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, skeleton } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { confirmDialog } from '/js/core/modal.js';
+import { uiPrefs } from '/js/core/storage.js';
+import { debounce, formatDateTime, stateChip } from '/js/core/ui.js';
 import { menuButton } from '/js/teacher/editor-kit.js';
 import { errorText, finishLoading, pageContent, say } from '/js/teacher/common.js';
 

@@ -26,7 +26,7 @@ export class PyRunner {
     this.ready = new Promise((resolve, reject) => {
       let worker;
       try {
-        worker = new Worker('/js/py-worker.js');
+        worker = new Worker('/js/code/py-worker.js');
       } catch (e) {
         this.state = 'error';
         this.onState('error', 'Trình duyệt không hỗ trợ Web Worker.');

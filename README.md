@@ -8,15 +8,37 @@ Thương hiệu: logo và tên **DK Edu** (ảnh gốc ở `docs/brand/`, bản 
 
 ## Cấu trúc
 ```
-src/TinHoc12.sln
-  Domain/          Entity (Lesson, Exercise, TestCase, User, SchoolClass, Assignment, Submission...) – không phụ thuộc gì
-  Application/     Use case, interface repository/IPasswordHasher/IClock, DTO (chỉ phụ thuộc Domain)
-  Infrastructure/  AppDbContext (EF Core), cấu hình entity, Migrations, repository, PBKDF2 hasher
-  Web/             CHỈ là API (/api/auth, /api/me, /api/teacher...), CORS, middleware bảo mật – không phục vụ HTML/CSS/JS
-frontend/          Giao diện độc lập: index.html (landing), login.html, lessons.html, dashboard.html..., teacher/, css/, js/, fonts/, img/
-tests/             Application.Tests, Infrastructure.Tests, Web.Tests (xUnit; Web.Tests dùng WebApplicationFactory), frontend/guard.test.mjs (Node)
-database/          schema.sql, seed-*.sql, them-bai-moi.sql, mo-khoa-tai-khoan.sql, HUONG-DAN-*.md
-docs/              specs/ (đặc tả v2 đến v6), brand/ (logo gốc), frontend-manifest.sha256 (băm tệp khi tách frontend)
+src/                         Backend ASP.NET Core (.NET 10, Clean Architecture) – TinHoc12.sln
+  Domain/Entities/             Entity: Lesson, Exercise, TestCase, User, SchoolClass, Assignment, Submission... (không phụ thuộc gì)
+  Application/                 Chỉ phụ thuộc Domain
+    Abstractions/                Interface repository, IPasswordHasher, IClock, IUnitOfWork
+    Dtos/  Exceptions/           DTO vào/ra API, ngoại lệ nghiệp vụ
+    Mapping/                     Entity -> DTO (LessonMapper, SubmissionMapper)
+    Rules/                       Quy tắc dùng chung: AssignmentRules, IdRules, SlugGenerator, FieldErrors
+    Security/                    CurrentUser, Roles, PasswordPolicy, ReturnUrlPolicy, AuthOptions
+    UseCases/                    Theo nghiệp vụ: Lessons, Auth, Authoring, Assignments, Student, Students, Progress
+  Infrastructure/              AppDbContext (EF Core), Configurations, Migrations, Repositories, PBKDF2 hasher
+  Web/                         API (/api/auth, /api/me, /api/teacher...), Endpoints, Middleware, Security (CORS, rate limit);
+                               ở Development phục vụ luôn frontend/ (Frontend:ServeFromBackend)
+frontend/                    Giao diện độc lập (HTML/CSS/JS thuần, ES modules, không build)
+  *.html, teacher/*.html       Các trang; css/style.css; fonts/; img/
+  js/core/                     Nền tảng: api, config (API_BASE), auth, guard, storage, dom, ui, icons, modal, toast, theme, fx
+  js/components/               Khung và widget dùng chung: header (thanh bên/thanh trên), search, charts, dash-kit, splitter
+  js/pages/                    Script riêng của từng trang học sinh và trang chung
+  js/code/                     Soạn và chạy Python: editor, runner, grader, py-worker (Pyodide)
+  js/teacher/                  Khu giáo viên: soạn bài, soạn bài tập, giao bài, tiến độ, học sinh
+database/
+  sqlserver/                   schema.sql, seed-sample.sql, seed-users.sql (ứng dụng tự nạp ở Development)
+  sqlite/                      Seed cho test (SQLite in-memory)
+  scripts/                     Tiện ích: them-bai-moi.sql, mo-khoa-tai-khoan.sql
+tests/                       Application.Tests, Infrastructure.Tests, Web.Tests (xUnit), frontend/guard.test.mjs (Node)
+docs/
+  guides/                      Hướng dẫn: HUONG-DAN-TAI-KHOAN.md, HUONG-DAN-THEM-BAI.md
+  specs/                       Đặc tả v2 đến v6 (ghi theo đường dẫn tại thời điểm viết)
+  qa/                          Báo cáo nghiệm thu
+  brand/                       Logo gốc
+  references/                  SGK12.pdf (tài liệu tham khảo, không đưa vào git)
+  frontend-manifest.sha256     Băm tệp frontend gốc (test dùng để phát hiện thay đổi ngoài ý muốn)
 ```
 
 ## Yêu cầu
@@ -68,10 +90,10 @@ Môi trường thật phải dùng **HTTPS** (`ASPNETCORE_ENVIRONMENT=Production
 Thêm bài bằng giao diện (khu giáo viên) hoặc bằng script SQL (`docs/guides/HUONG-DAN-THEM-BAI.md`).
 
 ## Cấu hình địa chỉ API và CORS
-**Địa chỉ API (`frontend/js/config.js`).** Tệp xuất đúng một hằng `API_BASE`, mặc định `'http://localhost:5000'`. Khi triển khai chỉ cần sửa tệp này (không build).
+**Địa chỉ API (`frontend/js/core/config.js`).** Tệp xuất đúng một hằng `API_BASE`, mặc định `'http://localhost:5000'`. Khi triển khai chỉ cần sửa tệp này (không build).
 - `API_BASE` là origin của backend, **không** có dấu `/` ở cuối và không có đường dẫn; ví dụ `'https://api.example.com'`.
 - Chuỗi rỗng `''` nghĩa là cùng origin với trang giao diện (khi reverse proxy chuyển `/api` về backend).
-- Giá trị này không đọc từ URL, `localStorage` hay DOM (chống bị dẫn tới API giả mạo). Mọi lời gọi API đi qua `frontend/js/api.js`.
+- Giá trị này không đọc từ URL, `localStorage` hay DOM (chống bị dẫn tới API giả mạo). Mọi lời gọi API đi qua `frontend/js/core/api.js`.
 
 **CORS ở backend (`Cors:AllowedOrigins`).** Mảng các origin giao diện được phép gọi API kèm cookie.
 - Development (`appsettings.Development.json`): `["http://localhost:5173"]`. Mặc định (`appsettings.json`): mảng rỗng, tức không origin nào được phép.
@@ -101,7 +123,7 @@ Cookie phiên `dkedu.auth` và cookie CSRF `dkedu.csrf` giữ `SameSite=Strict`.
 |---|---|
 | `landing.html` | `index.html` (landing, mở ở `/`) |
 | `index.html` (danh sách bài học của học sinh) | `lessons.html` |
-| `js/index.js` | `js/lessons.js` |
+| `js/index.js` | `js/pages/lessons.js` |
 
 `teacher/index.html` giữ nguyên tên. Dấu trang cũ `/index.html` của học sinh nay mở landing (người đã đăng nhập được chuyển tới Tổng quan); dấu trang `/landing.html` cũ không còn (404). Nên dùng liên kết `/teacher/` (có dấu `/` cuối) vì `/teacher` không có dấu `/` tùy static server có thể trả 301 hoặc 404.
 
@@ -137,12 +159,12 @@ server {
   }
 }
 ```
-Với cấu hình trên: `frontend/js/config.js` đặt `export const API_BASE = 'https://api.example.com';` và backend đặt `Cors__AllowedOrigins__0=https://app.example.com` (cả hai HTTPS, cùng site). IIS hoặc dịch vụ lưu trữ tĩnh cũng được, miễn đủ các điểm: phục vụ ở gốc, MIME `text/javascript` cho `.js`, `font/woff2` cho `.woff2`, và `Cache-Control: no-cache` cho `.html/.js/.css`.
+Với cấu hình trên: `frontend/js/core/config.js` đặt `export const API_BASE = 'https://api.example.com';` và backend đặt `Cors__AllowedOrigins__0=https://app.example.com` (cả hai HTTPS, cùng site). IIS hoặc dịch vụ lưu trữ tĩnh cũng được, miễn đủ các điểm: phục vụ ở gốc, MIME `text/javascript` cho `.js`, `font/woff2` cho `.woff2`, và `Cache-Control: no-cache` cho `.html/.js/.css`.
 
 ## Bảo mật (tóm tắt)
 Cookie phiên `HttpOnly`, `SameSite=Strict` (`Secure` ở Production); token CSRF (`X-CSRF-TOKEN`) cho mọi yêu cầu ghi; CORS chỉ cho các origin được liệt kê, không wildcard; mật khẩu băm PBKDF2-HMAC-SHA512; khóa tạm sau 5 lần sai; giới hạn tần suất đăng nhập theo IP; mọi API trả 401/403/404 đúng quy tắc; nội dung do người dùng nhập luôn hiển thị bằng `textContent`.
 
-**Phân quyền:** trang HTML là tĩnh và công khai (không chứa dữ liệu nghiệp vụ). Phía trình duyệt có *guard* (`frontend/js/auth.js`, `frontend/js/guard.js`) chỉ để chuyển hướng và che nội dung khi chưa đăng nhập hoặc sai vai trò (trang bảo vệ mang `<html data-guard>` cho tới khi xác nhận xong). **Lớp bảo mật thật là API**: mọi dữ liệu chỉ lấy được qua API, và máy chủ luôn phân quyền 401/403/404. Cờ `th12.signedin` trong `localStorage` chỉ là gợi ý "đã từng đăng nhập" (không chứa id, vai trò hay token) để landing/đăng nhập biết có nên hỏi `/api/auth/me`.
+**Phân quyền:** trang HTML là tĩnh và công khai (không chứa dữ liệu nghiệp vụ). Phía trình duyệt có *guard* (`frontend/js/core/auth.js`, `frontend/js/core/guard.js`) chỉ để chuyển hướng và che nội dung khi chưa đăng nhập hoặc sai vai trò (trang bảo vệ mang `<html data-guard>` cho tới khi xác nhận xong). **Lớp bảo mật thật là API**: mọi dữ liệu chỉ lấy được qua API, và máy chủ luôn phân quyền 401/403/404. Cờ `th12.signedin` trong `localStorage` chỉ là gợi ý "đã từng đăng nhập" (không chứa id, vai trò hay token) để landing/đăng nhập biết có nên hỏi `/api/auth/me`.
 
 ## Build và kiểm thử
 ```

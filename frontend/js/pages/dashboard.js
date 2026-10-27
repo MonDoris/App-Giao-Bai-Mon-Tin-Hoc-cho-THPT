@@ -1,12 +1,12 @@
 // Tổng quan của học sinh (QD-64, QD-68, QD-69): đúng 2 yêu cầu song song, GET /api/lessons và GET /api/me/assignments.
 // Công thức KPI: AC-357 đến AC-362 (xem docs/specs/landing-dashboard-soan-bai.md). Mỗi nguồn lỗi độc lập.
-import { api } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, stateBox } from '/js/dom.js';
-import { banner, chip, formatDateTime, icon, overdueChip } from '/js/ui.js';
-import { enableCardEffects, revealOnView } from '/js/fx.js';
-import { count, percent, ring, stackedBar } from '/js/charts.js';
-import { createSource, kpiCard, lessonCard, setSlot } from '/js/dash-kit.js';
+import { api } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, stateBox } from '/js/core/dom.js';
+import { banner, chip, formatDateTime, icon, overdueChip } from '/js/core/ui.js';
+import { enableCardEffects, revealOnView } from '/js/core/fx.js';
+import { count, percent, ring, stackedBar } from '/js/components/charts.js';
+import { createSource, kpiCard, lessonCard, setSlot } from '/js/components/dash-kit.js';
 
 const user = await initPage({ role: 'Student', active: 'overview' });
 const $ = (id) => document.getElementById(id);

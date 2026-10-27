@@ -1,14 +1,14 @@
-import { api, ApiError, describeError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, renderText, difficultyInfo, spinner, codeBlockEl } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { createSplitter } from '/js/splitter.js';
-import { drafts } from '/js/storage.js';
-import { confirmDialog, showDialog } from '/js/modal.js';
-import { CodeEditor } from '/js/editor.js';
-import { PyRunner } from '/js/runner.js';
-import { classify, STATUS } from '/js/grader.js';
-import { formatDateTime, lateChip, overdueChip, setTitle, stateChip, statusChip } from '/js/ui.js';
+import { api, ApiError, describeError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, renderText, difficultyInfo, spinner, codeBlockEl } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { createSplitter } from '/js/components/splitter.js';
+import { drafts } from '/js/core/storage.js';
+import { confirmDialog, showDialog } from '/js/core/modal.js';
+import { CodeEditor } from '/js/code/editor.js';
+import { PyRunner } from '/js/code/runner.js';
+import { classify, STATUS } from '/js/code/grader.js';
+import { formatDateTime, lateChip, overdueChip, setTitle, stateChip, statusChip } from '/js/core/ui.js';
 
 const user = await initPage({ active: 'lessons' });
 // Giáo viên mở ở chế độ XEM TRƯỚC: thấy cả bản nháp, chạy/nộp thử nhưng KHÔNG ghi kết quả lên máy chủ (QD-34).

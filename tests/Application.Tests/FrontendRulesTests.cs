@@ -45,7 +45,7 @@ public class FrontendRulesTests
         // Đổi tên trang (QD-92, AC-478): tên cũ không còn
         Assert.DoesNotContain("landing.html", names);
         Assert.False(File.Exists(Path.Combine(Frontend, "js", "index.js")));
-        Assert.True(File.Exists(Path.Combine(Frontend, "js", "lessons.js")));
+        Assert.True(File.Exists(Path.Combine(Frontend, "js", "pages", "lessons.js")));
 
         Assert.DoesNotContain(names, n => n.Contains("register", StringComparison.OrdinalIgnoreCase) || n.Contains("signup", StringComparison.OrdinalIgnoreCase));
     }
@@ -84,7 +84,7 @@ public class FrontendRulesTests
             Assert.Contains("href=\"/css/style.css\"", text);
 
             // AC-166: theme-init.js đồng bộ, nằm trước stylesheet; AC-305: không script nội dòng
-            var init = text.IndexOf("<script src=\"/js/theme-init.js\"></script>", StringComparison.Ordinal);
+            var init = text.IndexOf("<script src=\"/js/core/theme-init.js\"></script>", StringComparison.Ordinal);
             var sheet = text.IndexOf("<link rel=\"stylesheet\" href=\"/css/style.css\">", StringComparison.Ordinal);
             Assert.True(init >= 0 && sheet > init, $"{name}: theme-init.js phải đứng trước style.css");
             Assert.Contains("<meta name=\"color-scheme\" content=\"light dark\">", text);
@@ -140,7 +140,7 @@ public class FrontendRulesTests
         Assert.Contains("Quên mật khẩu? Hãy nhờ giáo viên đặt lại mật khẩu cho bạn.", html);
         Assert.Single(Regex.Matches(html, "<h1[ >]"));
         Assert.True(html.IndexOf("id=\"theme-slot\"", StringComparison.Ordinal) < html.IndexOf("id=\"username\"", StringComparison.Ordinal), "nút đổi giao diện phải đứng trước ô nhập trong thứ tự Tab");
-        var fx = File.ReadAllText(Path.Combine(Frontend, "js", "login-fx.js"));
+        var fx = File.ReadAllText(Path.Combine(Frontend, "js", "pages", "login-fx.js"));
         Assert.Contains("className = 'drift'", fx);
         foreach (var piece in new[] { "'/'", "'< >'", "'{}'", "'print()'", "'for'", "'def'" })
         {
@@ -153,7 +153,7 @@ public class FrontendRulesTests
         Assert.Contains("prefers-reduced-motion", fx);
         Assert.Contains("visibilitychange", fx);
         Assert.Contains("IntersectionObserver", fx);
-        var js = File.ReadAllText(Path.Combine(Frontend, "js", "login.js"));
+        var js = File.ReadAllText(Path.Combine(Frontend, "js", "pages", "login.js"));
         Assert.Contains("Đang đăng nhập…", js);
         Assert.Contains("Tên đăng nhập hoặc mật khẩu không đúng, hoặc tài khoản đang bị khóa.", js);
         Assert.Contains("Bạn thử quá nhiều lần, vui lòng đợi ít phút.", js);
@@ -162,7 +162,7 @@ public class FrontendRulesTests
     [Fact]
     public void Header_uses_the_small_logo_dk_edu_label_and_role_labels()
     {
-        var header = File.ReadAllText(Path.Combine(Frontend, "js", "header.js"));
+        var header = File.ReadAllText(Path.Combine(Frontend, "js", "components", "header.js"));
         Assert.Contains("/img/logo-dk-icon.png", header);
         Assert.Contains("aria-label': 'DK Edu – về trang chủ'", header);
         Assert.Contains("'DK Edu'", header);
@@ -175,7 +175,7 @@ public class FrontendRulesTests
         Assert.Contains("aria-controls", header);
         Assert.Contains("'Escape'", header);
         Assert.Contains("aria-current", header);
-        Assert.Contains("textContent", File.ReadAllText(Path.Combine(Frontend, "js", "dom.js")));
+        Assert.Contains("textContent", File.ReadAllText(Path.Combine(Frontend, "js", "core", "dom.js")));
         var css = File.ReadAllText(Path.Combine(Frontend, "css", "style.css"));
         Assert.Matches(@"\.brand__logo\s*\{[^}]*height:\s*40px", css);
         Assert.Matches(@"\.brand__logo\s*\{[^}]*object-fit:\s*contain", css);
@@ -215,12 +215,12 @@ public class FrontendRulesTests
             Assert.DoesNotMatch(@"localStorage|sessionStorage", text);
         }
 
-        var themeInit = Code(Path.Combine(Frontend, "js", "theme-init.js"));
+        var themeInit = Code(Path.Combine(Frontend, "js", "core", "theme-init.js"));
         Assert.DoesNotContain("sessionStorage", themeInit);
         Assert.Contains("th12.theme", themeInit);
-        Assert.True(new FileInfo(Path.Combine(Frontend, "js", "theme-init.js")).Length <= 1536); // v5 đã nâng ngưỡng lên 1,5 KB
+        Assert.True(new FileInfo(Path.Combine(Frontend, "js", "core", "theme-init.js")).Length <= 1536); // v5 đã nâng ngưỡng lên 1,5 KB
 
-        var storage = Code(Path.Combine(Frontend, "js", "storage.js"));
+        var storage = Code(Path.Combine(Frontend, "js", "core", "storage.js"));
         Assert.DoesNotMatch(@"(?i)password|token|csrf|secret", storage.Replace("th12.", string.Empty));
         foreach (var file in JsFiles)
         {
@@ -234,10 +234,10 @@ public class FrontendRulesTests
     [Fact]
     public void Password_never_appears_in_urls_and_login_posts_json()
     {
-        var api = File.ReadAllText(Path.Combine(Frontend, "js", "api.js"));
+        var api = File.ReadAllText(Path.Combine(Frontend, "js", "core", "api.js"));
         Assert.Contains("call('POST', '/api/auth/login', body", api);
         Assert.Contains("'X-CSRF-TOKEN'", api);
-        var login = File.ReadAllText(Path.Combine(Frontend, "js", "login.js"));
+        var login = File.ReadAllText(Path.Combine(Frontend, "js", "pages", "login.js"));
         Assert.DoesNotContain("location.search = ", login);
     }
 
@@ -255,21 +255,21 @@ public class FrontendRulesTests
             var text = File.ReadAllText(file);
             if (Path.GetFileName(file) == "problem.js")
             {
-                Assert.Contains("from '/js/runner.js'", text);
+                Assert.Contains("from '/js/code/runner.js'", text);
             }
             else
             {
-                Assert.DoesNotContain("from '/js/runner.js'", text);
+                Assert.DoesNotContain("from '/js/code/runner.js'", text);
             }
         }
 
-        Assert.Contains("await import('/js/runner.js')", File.ReadAllText(Path.Combine(Frontend, "js", "teacher", "exercise-edit.js")));
+        Assert.Contains("await import('/js/code/runner.js')", File.ReadAllText(Path.Combine(Frontend, "js", "teacher", "exercise-edit.js")));
     }
 
     [Fact]
     public void Problem_page_run_button_never_calls_the_save_api_and_preview_does_not_submit()
     {
-        var text = File.ReadAllText(Path.Combine(Frontend, "js", "problem.js"));
+        var text = File.ReadAllText(Path.Combine(Frontend, "js", "pages", "problem.js"));
         var onRun = text[text.IndexOf("async function onRun()", StringComparison.Ordinal)..text.IndexOf("function testRow", StringComparison.Ordinal)];
         Assert.DoesNotContain("api.submit", onRun);
         Assert.Contains("if (preview)", text);
@@ -286,7 +286,7 @@ public class FrontendRulesTests
     [Fact]
     public void Solution_is_never_fetched_automatically_when_the_problem_page_opens()
     {
-        var text = File.ReadAllText(Path.Combine(Frontend, "js", "problem.js"));
+        var text = File.ReadAllText(Path.Combine(Frontend, "js", "pages", "problem.js"));
         Assert.DoesNotContain("fetchSolution().then", text);
         Assert.Single(Regex.Matches(text, @"api\.solution\("));
         Assert.Contains("solutionData !== null", text);
@@ -789,13 +789,13 @@ public class FrontendRulesTests
             Assert.DoesNotMatch(@"(?i)\b(gsap|lottie|framer-motion|matter-js|three\.js|anime\.js)\b", text);
         }
 
-        // AC-488: địa chỉ API chỉ được khai báo ở js/config.js (đúng http://localhost:5000); mọi nơi khác chỉ cho SVG namespace và Pyodide
+        // AC-488: địa chỉ API chỉ được khai báo ở js/core/config.js (đúng http://localhost:5000); mọi nơi khác chỉ cho SVG namespace và Pyodide
         var allowed = new[] { "http://www.w3.org/2000/svg", "https://cdn.jsdelivr.net/pyodide/" };
         foreach (var file in JsFiles.Concat(HtmlFiles).Concat(Directory.GetFiles(Frontend, "*.css", SearchOption.AllDirectories)))
         {
             foreach (Match m in Regex.Matches(Code(file), @"https?://[^\s'""`)<>]+"))
             {
-                var isApiBase = Rel(file) == "js/config.js" && m.Value == "http://localhost:5000";
+                var isApiBase = Rel(file) == "js/core/config.js" && m.Value == "http://localhost:5000";
                 Assert.True(isApiBase || allowed.Any(a => m.Value.StartsWith(a, StringComparison.Ordinal)), $"{Rel(file)}: {m.Value}");
             }
         }
@@ -804,7 +804,7 @@ public class FrontendRulesTests
     // Tệp còn dùng emoji / em-dash cho tới khi giai đoạn 2 của thiết kế lại hoàn tất (AC-313); xóa dần khỏi danh sách này.
     private static readonly string[] PendingPhaseTwoFiles =
     {
-        "js/problem.js", "js/teacher/progress.js", "js/teacher/students.js",
+        "js/pages/problem.js", "js/teacher/progress.js", "js/teacher/students.js",
     };
 
     [Fact]
@@ -847,25 +847,25 @@ public class FrontendRulesTests
     {
         // AC-168, AC-273, AC-286, QD-56
         var js = Path.Combine(Frontend, "js");
-        foreach (var name in new[] { "theme-init.js", "theme.js", "toast.js", "fx.js", "login-fx.js", "icons.js" })
+        foreach (var name in new[] { "core/theme-init.js", "core/theme.js", "core/toast.js", "core/fx.js", "pages/login-fx.js", "core/icons.js" })
         {
             Assert.True(File.Exists(Path.Combine(js, name)), name);
         }
 
-        var theme = Code(Path.Combine(js, "theme.js"));
+        var theme = Code(Path.Combine(js, "core", "theme.js"));
         Assert.Contains("id: 'btn-theme'", theme);
         Assert.Contains("Đổi giao diện", theme);
         Assert.Contains("startViewTransition", theme);
         Assert.Contains("uiPrefs", theme);
         Assert.Contains("pagehide", theme);
-        var toast = Code(Path.Combine(js, "toast.js"));
+        var toast = Code(Path.Combine(js, "core", "toast.js"));
         Assert.Contains("toast-region", toast);
         Assert.Contains("Đóng thông báo", toast);
-        var fx = Code(Path.Combine(js, "fx.js"));
+        var fx = Code(Path.Combine(js, "core", "fx.js"));
         Assert.Contains("pagehide", fx);
         Assert.Contains("disconnect()", fx);
-        Assert.Contains("createElementNS", Code(Path.Combine(js, "icons.js")));
-        var modal = Code(Path.Combine(js, "modal.js"));
+        Assert.Contains("createElementNS", Code(Path.Combine(js, "core", "icons.js")));
+        var modal = Code(Path.Combine(js, "core", "modal.js"));
         Assert.Contains("toast-region", modal);
         Assert.Contains("has-modal", modal);
     }

@@ -1,16 +1,16 @@
 // Trình soạn bài tập 5 bước (AC-409..AC-420). API, dữ liệu gửi đi, version/xung đột, nháp và cảnh báo bài đã giao không đổi.
-import { api, ApiError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox } from '/js/dom.js';
-import { confirmDialog, showDialog } from '/js/modal.js';
-import { formDraft } from '/js/storage.js';
-import { toast } from '/js/toast.js';
-import { banner, chip, debounce, field, guardUnsaved, setTitle, stateChip, withBusy } from '/js/ui.js';
+import { api, ApiError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox } from '/js/core/dom.js';
+import { confirmDialog, showDialog } from '/js/core/modal.js';
+import { formDraft } from '/js/core/storage.js';
+import { toast } from '/js/core/toast.js';
+import { banner, chip, debounce, field, guardUnsaved, setTitle, stateChip, withBusy } from '/js/core/ui.js';
 import { recordList } from '/js/teacher/blocks.js';
 import { DIFFICULTIES, backLink, errorText, finishLoading, pageContent, say } from '/js/teacher/common.js';
 import { checklist, errorSummary, fillSample, iconBtn, onSave, roving, saveBar, stepHead, switchEl, toggleBulletLines, toggleInlineCode, wizard } from '/js/teacher/editor-kit.js';
 import { EXAMPLE, SAMPLE } from '/js/teacher/samples.js';
-import { classify, STATUS } from '/js/grader.js';
+import { classify, STATUS } from '/js/code/grader.js';
 
 await initPage({ role: 'Teacher', active: 'lessons' });
 
@@ -401,7 +401,7 @@ async function checkSolution(button) {
     checkBox.replaceChildren(banner('info', 'Đang nạp trình chạy Python (lần đầu có thể mất vài giây)…'));
     if (!runner) {
       try {
-        const { PyRunner } = await import('/js/runner.js'); // nạp lười: chỉ khi giáo viên bấm chạy thử
+        const { PyRunner } = await import('/js/code/runner.js'); // nạp lười: chỉ khi giáo viên bấm chạy thử
         runner = new PyRunner({ onState: () => {} });
         await runner.start();
       } catch (e) {

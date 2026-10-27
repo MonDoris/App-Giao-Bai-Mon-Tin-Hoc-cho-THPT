@@ -1,12 +1,12 @@
 // Tổng quan của giáo viên (QD-68 đến QD-70): đúng 3 yêu cầu song song, không thêm endpoint. Công thức: AC-368 đến AC-373.
 // "Hoạt động gần đây" chỉ gồm dữ liệu thật có sẵn (giao bài gần đây, bài học sửa gần đây); chưa có luồng bài nộp (QD-70).
-import { api } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el } from '/js/dom.js';
-import { formatDateTime, stateChip } from '/js/ui.js';
-import { enableCardEffects, revealOnView } from '/js/fx.js';
-import { count, percent, stackedBar } from '/js/charts.js';
-import { createSource, kpiCard, setSlot } from '/js/dash-kit.js';
+import { api } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el } from '/js/core/dom.js';
+import { formatDateTime, stateChip } from '/js/core/ui.js';
+import { enableCardEffects, revealOnView } from '/js/core/fx.js';
+import { count, percent, stackedBar } from '/js/components/charts.js';
+import { createSource, kpiCard, setSlot } from '/js/components/dash-kit.js';
 
 await initPage({ role: 'Teacher', active: 'overview' });
 const $ = (id) => document.getElementById(id);

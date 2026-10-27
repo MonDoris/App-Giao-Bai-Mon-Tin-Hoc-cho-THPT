@@ -1,9 +1,9 @@
-// Cổng ra DUY NHẤT tới backend (QD-88, AC-487): giao diện chỉ lấy/gửi dữ liệu qua /api/..., địa chỉ lấy từ API_BASE (js/config.js).
+// Cổng ra DUY NHẤT tới backend (QD-88, AC-487): giao diện chỉ lấy/gửi dữ liệu qua /api/..., địa chỉ lấy từ API_BASE (js/core/config.js).
 // Cookie phiên là HttpOnly (mã JavaScript không đọc được) nên mọi fetch dùng credentials: 'include';
 // mọi yêu cầu ghi gửi kèm token CSRF trong header X-CSRF-TOKEN.
-import { API_BASE } from '/js/config.js';
-import { homeFor, joinApiUrl } from '/js/guard.js';
-import { clearSignedIn, hasSignedInHint, markSignedIn } from '/js/storage.js';
+import { API_BASE } from '/js/core/config.js';
+import { homeFor, joinApiUrl } from '/js/core/guard.js';
+import { clearSignedIn, hasSignedInHint, markSignedIn } from '/js/core/storage.js';
 
 export { homeFor };
 

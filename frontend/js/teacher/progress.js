@@ -1,8 +1,8 @@
-import { api } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, skeleton } from '/js/dom.js';
-import { showDialog } from '/js/modal.js';
-import { banner, chip, dataTable, debounce, downloadCsv, field, formatDateTime, icon, lateChip, statusChip } from '/js/ui.js';
+import { api } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, skeleton } from '/js/core/dom.js';
+import { showDialog } from '/js/core/modal.js';
+import { banner, chip, dataTable, debounce, downloadCsv, field, formatDateTime, icon, lateChip, statusChip } from '/js/core/ui.js';
 import { errorText, finishLoading, pageContent, say } from '/js/teacher/common.js';
 
 await initPage({ role: 'Teacher', active: 'progress' });

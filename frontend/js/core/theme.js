@@ -1,8 +1,8 @@
 // Nút đổi giao diện Tự động / Sáng / Tối (AC-167..172). Dùng ở header và trang đăng nhập.
-import { el } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { uiPrefs } from '/js/storage.js';
-import { toast } from '/js/toast.js';
+import { el } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { uiPrefs } from '/js/core/storage.js';
+import { toast } from '/js/core/toast.js';
 
 const ORDER = ['auto', 'light', 'dark'];
 const LABEL = { auto: 'Tự động', light: 'Sáng', dark: 'Tối' };

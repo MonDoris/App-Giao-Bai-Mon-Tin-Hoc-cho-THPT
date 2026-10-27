@@ -1,9 +1,9 @@
-import { api, describeError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, skeleton, difficultyInfo, LESSON_SECTIONS as SECTIONS, lessonSections } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { revealOnView, prefersReducedMotion } from '/js/fx.js';
-import { formatDateTime, lateChip, overdueChip, statusChip, setTitle, stateChip } from '/js/ui.js';
+import { api, describeError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, skeleton, difficultyInfo, LESSON_SECTIONS as SECTIONS, lessonSections } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { revealOnView, prefersReducedMotion } from '/js/core/fx.js';
+import { formatDateTime, lateChip, overdueChip, statusChip, setTitle, stateChip } from '/js/core/ui.js';
 
 const user = await initPage({ active: 'lessons' });
 const isTeacher = user.role === 'Teacher';

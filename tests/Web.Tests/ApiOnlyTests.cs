@@ -9,7 +9,7 @@ public class ApiOnlyTests : IClassFixture<AppFactory>
     private static readonly string[] StaticUrls =
     {
         "/", "/index.html", "/login.html", "/lessons.html", "/dashboard.html", "/teacher/index.html",
-        "/css/style.css", "/js/api.js", "/fonts/OFL.txt", "/img/logo-dk-edu.png",
+        "/css/style.css", "/js/core/api.js", "/fonts/OFL.txt", "/img/logo-dk-edu.png",
     };
 
     private readonly AppFactory _factory;

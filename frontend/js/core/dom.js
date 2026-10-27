@@ -1,5 +1,5 @@
 // Tiện ích DOM: mọi nội dung từ API đều được chèn bằng textContent / createElement để an toàn XSS.
-import { icon } from '/js/icons.js';
+import { icon } from '/js/core/icons.js';
 
 export function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
@@ -59,7 +59,7 @@ export function codeBlockEl(code, lang = '') {
     let ok = false;
     let notify = null;
     try {
-      const [{ copyText }, { toast }] = await Promise.all([import('/js/ui.js'), import('/js/toast.js')]);
+      const [{ copyText }, { toast }] = await Promise.all([import('/js/core/ui.js'), import('/js/core/toast.js')]);
       ok = await copyText(codeNode.textContent);
       notify = toast;
     } catch (e) {

@@ -1,9 +1,9 @@
 // Thành phần dùng chung của hai trang Tổng quan và danh sách bài học: nguồn dữ liệu độc lập có skeleton/lỗi/thử lại,
 // thẻ KPI, thẻ bài học. Mọi chữ từ API chèn bằng textContent.
-import { describeError } from '/js/api.js';
-import { el, clear, stateBox } from '/js/dom.js';
-import { icon, stateChip } from '/js/ui.js';
-import { count } from '/js/charts.js';
+import { describeError } from '/js/core/api.js';
+import { el, clear, stateBox } from '/js/core/dom.js';
+import { icon, stateChip } from '/js/core/ui.js';
+import { count } from '/js/components/charts.js';
 
 export function setSlot(slot, ...children) {
   clear(slot);

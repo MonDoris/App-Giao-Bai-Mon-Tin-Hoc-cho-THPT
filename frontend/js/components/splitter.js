@@ -1,8 +1,8 @@
 // Thanh kéo chia đôi khung đề bài / khung code (AC-239..243, QD-55).
 // Chuột/cảm ứng: pointer capture trên chính thanh kéo (không listener window/document). Bàn phím: mũi tên, Home, End, Enter.
 // Tỉ lệ (30-70, mặc định 50) ghi vào biến CSS --split của .workspace và lưu qua uiPrefs sau 300 ms.
-import { el } from '/js/dom.js';
-import { uiPrefs } from '/js/storage.js';
+import { el } from '/js/core/dom.js';
+import { uiPrefs } from '/js/core/storage.js';
 
 const MIN = 30;
 const MAX = 70;

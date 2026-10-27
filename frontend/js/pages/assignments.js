@@ -1,7 +1,7 @@
-import { api, describeError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, difficultyInfo } from '/js/dom.js';
-import { dataTable, formatDateTime, lateChip, overdueChip, statusChip } from '/js/ui.js';
+import { api, describeError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, difficultyInfo } from '/js/core/dom.js';
+import { dataTable, formatDateTime, lateChip, overdueChip, statusChip } from '/js/core/ui.js';
 
 await initPage({ role: 'Student', active: 'assignments' });
 

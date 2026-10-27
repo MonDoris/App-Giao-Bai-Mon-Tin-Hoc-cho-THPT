@@ -1,8 +1,8 @@
-import { api, ApiError } from '/js/api.js';
-import { homeFor, isSafeRedirect, onRestoreFromCache, redirectIfSignedIn } from '/js/guard.js';
-import { clearSignedIn, hasSignedInHint } from '/js/storage.js';
-import { createThemeButton } from '/js/theme.js';
-import { start as startLoginFx } from '/js/login-fx.js';
+import { api, ApiError } from '/js/core/api.js';
+import { homeFor, isSafeRedirect, onRestoreFromCache, redirectIfSignedIn } from '/js/core/guard.js';
+import { clearSignedIn, hasSignedInHint } from '/js/core/storage.js';
+import { createThemeButton } from '/js/core/theme.js';
+import { start as startLoginFx } from '/js/pages/login-fx.js';
 
 const form = document.getElementById('login-form');
 const usernameInput = document.getElementById('username');

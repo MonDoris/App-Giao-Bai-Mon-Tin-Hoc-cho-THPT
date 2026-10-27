@@ -1,10 +1,10 @@
 // Khởi tạo trang sau đăng nhập và là guard phía trình duyệt (QD-93, AC-508, AC-510): lấy người dùng (GET /api/auth/me),
 // kiểm tra role, dựng thanh điều hướng, và phát hiện đổi tài khoản ở tab khác (AC-93, AC-100).
 // Trang bảo vệ mang <html data-guard> (nội dung bị ẩn bằng CSS) cho tới khi xác nhận xong; các nhánh chuyển hướng KHÔNG bỏ ẩn.
-import { api, setPageUserId, homeFor } from '/js/api.js';
-import { onRestoreFromCache } from '/js/guard.js';
-import { renderHeader } from '/js/header.js';
-import { markSignedIn, setStorageUser } from '/js/storage.js';
+import { api, setPageUserId, homeFor } from '/js/core/api.js';
+import { onRestoreFromCache } from '/js/core/guard.js';
+import { renderHeader } from '/js/components/header.js';
+import { markSignedIn, setStorageUser } from '/js/core/storage.js';
 
 let watching = false;
 

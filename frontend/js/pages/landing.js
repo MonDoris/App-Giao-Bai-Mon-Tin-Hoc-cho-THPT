@@ -1,11 +1,11 @@
 // Trang giới thiệu công khai (index.html): khách chưa từng đăng nhập không phát sinh yêu cầu API nào (AC-342, AC-514). Gồm menu thu gọn, tab vai trò, hiệu ứng gõ mã một lần,
 // đường nối timeline, hiệu ứng cuộn 2 chiều (lên/xuống) và đánh dấu mục đang xem. Mọi nội dung đã có sẵn trong HTML; mã này chỉ bổ sung.
-import { api } from '/js/api.js';
-import { onRestoreFromCache, redirectIfSignedIn } from '/js/guard.js';
-import { clearSignedIn, hasSignedInHint } from '/js/storage.js';
-import { icon } from '/js/icons.js';
-import { createThemeButton } from '/js/theme.js';
-import { revealOnView, enableCardEffects, onceInView, prefersReducedMotion, watchReducedMotion } from '/js/fx.js';
+import { api } from '/js/core/api.js';
+import { onRestoreFromCache, redirectIfSignedIn } from '/js/core/guard.js';
+import { clearSignedIn, hasSignedInHint } from '/js/core/storage.js';
+import { icon } from '/js/core/icons.js';
+import { createThemeButton } from '/js/core/theme.js';
+import { revealOnView, enableCardEffects, onceInView, prefersReducedMotion, watchReducedMotion } from '/js/core/fx.js';
 
 const root = document.documentElement;
 root.classList.add('js-reveal');

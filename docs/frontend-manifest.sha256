@@ -21,49 +21,49 @@ eed69bba60b44c16d72c95a73923f9bfb1aabe9163ab439ef36a29437c704b40  img/favicon-32
 247d343145451da2a6f0e476be97b587a6464c53a29d41d102be1626cb43a2fd  img/logo-dk-edu@2x.png  ->  img/logo-dk-edu@2x.png
 eb8c555d7cd3d6e26eaafaf7d171c6ebc6eb78c2e956ab26c44aac66d1db7842  img/logo-dk-icon.png  ->  img/logo-dk-icon.png
 0789e590001356116fdfb73f0f2c623bae5ecc3932d7d73ece4a3a29a50a94c6  index.html  ->  lessons.html  MODIFIED
-5c80f3d7ab9d279e3306083e1857392b9da5e5b44fb6088bf52ba77f3d6443b1  js/api.js  ->  js/api.js  MODIFIED
-f555cb2dd3db70d431fb99560f2afa9c5501865a45fd48c2de8b0a04c92a52a7  js/assignments.js  ->  js/assignments.js  MODIFIED
-8690c093678aaffdfcd4a10e88764aa72fc79ab891ca51af7d3331baad7ce276  js/auth.js  ->  js/auth.js  MODIFIED
-16a468de2e3f99762622e0db3adc3dd1e0109b1eb58bb28a6ab2442014d1a256  js/change-password.js  ->  js/change-password.js
-aea6375592ace6378bf9f8831b1e56dbd3e907dd382971fa0859c339b52ddd74  js/charts.js  ->  js/charts.js
-2f49e6d70d732ef45f0ed1557000908a663c3111dc00943483944f29056c631c  js/dash-kit.js  ->  js/dash-kit.js
-699c081a502a296888dd59afed6fb00cd1ea2f7d0cab2d0a9d6753cb74b6898f  js/dashboard.js  ->  js/dashboard.js  MODIFIED
-34ff3f351ee10b348c4df7797f9d569390c066344392ad58b261f19dacd488ef  js/dom.js  ->  js/dom.js
-a624666be5206b9e78eae493f3a5a16b8ee87673926fc34910297989e130c158  js/editor.js  ->  js/editor.js
-eee5cb92b22e9d53f7b0e241cc1ea5fa9b697048d197779d64cea8c2d0931815  js/fx.js  ->  js/fx.js
-b84efb48a0441ff7037adbb11bd550780eb8af279b916da18f03f4b92471c941  js/grader.js  ->  js/grader.js
-48156724f3f6745e47dab9e73ef8d8a6c5bf49289d4cc1440bd1eeaec5be10ce  js/header.js  ->  js/header.js  MODIFIED
-604ee007157830d8f7c8e2a7c04272879dda7145754eda2d6656ea332d96696d  js/icons.js  ->  js/icons.js
-64887a8d0e4c67ab7bede446817640bf10f438f8e14b50da8d348e1ac6c71863  js/index.js  ->  js/lessons.js
-20b815b9e4b9d4d86851f517c6e07c77d3642e5e3e0fdec3b30495699025a659  js/landing.js  ->  js/landing.js  MODIFIED
-1efbc657a4944ec69f40e41cb7e8b3df963a8f601e289c4c6dd0be126a60811f  js/lesson.js  ->  js/lesson.js  MODIFIED
-081c02abd2caaa5ae68ffd7ecb86bb6f217d4ce1c855690f8e8986e8da19db3f  js/login-fx.js  ->  js/login-fx.js
-d680714707cc377147704fd597d9226e90fbd1271d4e65048c0f2ab863965f36  js/login.js  ->  js/login.js  MODIFIED
-cb514e6a07f2c74206b9b9456db9ed3728aea0e14080669e1081b57f953cdcbb  js/modal.js  ->  js/modal.js
-ced0c476c7ffcc3d3d75aa932a5fd7cd875d89396173c66c23a0a402c6e17014  js/problem.js  ->  js/problem.js  MODIFIED
-5e31d4cf00d0b02c51b6d248bde5cc9a5d8c05e5587fa18e821a258fe6232c54  js/py-worker.js  ->  js/py-worker.js
-2729c4f01eb439790813fba9577702ab50e5d0722d314b77d811675d6a7c13a5  js/runner.js  ->  js/runner.js
-d230c44e330f643e7616f1c2a3517df2cde95f3f358451ec81aa488f1b723e69  js/search.js  ->  js/search.js
-7fad7a426033422c43370b54cdb8e6e34c4d09cd46e7067ac0fd7cf1e1a697d0  js/splitter.js  ->  js/splitter.js
-b71e2185649dbbb3a88b6a9801354c5a95e5598243bd7445431f0e7450525ad2  js/storage.js  ->  js/storage.js  MODIFIED
+5c80f3d7ab9d279e3306083e1857392b9da5e5b44fb6088bf52ba77f3d6443b1  js/api.js  ->  js/core/api.js  MODIFIED
+f555cb2dd3db70d431fb99560f2afa9c5501865a45fd48c2de8b0a04c92a52a7  js/assignments.js  ->  js/pages/assignments.js  MODIFIED
+8690c093678aaffdfcd4a10e88764aa72fc79ab891ca51af7d3331baad7ce276  js/auth.js  ->  js/core/auth.js  MODIFIED
+16a468de2e3f99762622e0db3adc3dd1e0109b1eb58bb28a6ab2442014d1a256  js/change-password.js  ->  js/pages/change-password.js  MODIFIED
+aea6375592ace6378bf9f8831b1e56dbd3e907dd382971fa0859c339b52ddd74  js/charts.js  ->  js/components/charts.js  MODIFIED
+2f49e6d70d732ef45f0ed1557000908a663c3111dc00943483944f29056c631c  js/dash-kit.js  ->  js/components/dash-kit.js  MODIFIED
+699c081a502a296888dd59afed6fb00cd1ea2f7d0cab2d0a9d6753cb74b6898f  js/dashboard.js  ->  js/pages/dashboard.js  MODIFIED
+34ff3f351ee10b348c4df7797f9d569390c066344392ad58b261f19dacd488ef  js/dom.js  ->  js/core/dom.js  MODIFIED
+a624666be5206b9e78eae493f3a5a16b8ee87673926fc34910297989e130c158  js/editor.js  ->  js/code/editor.js  MODIFIED
+eee5cb92b22e9d53f7b0e241cc1ea5fa9b697048d197779d64cea8c2d0931815  js/fx.js  ->  js/core/fx.js
+b84efb48a0441ff7037adbb11bd550780eb8af279b916da18f03f4b92471c941  js/grader.js  ->  js/code/grader.js
+48156724f3f6745e47dab9e73ef8d8a6c5bf49289d4cc1440bd1eeaec5be10ce  js/header.js  ->  js/components/header.js  MODIFIED
+604ee007157830d8f7c8e2a7c04272879dda7145754eda2d6656ea332d96696d  js/icons.js  ->  js/core/icons.js
+64887a8d0e4c67ab7bede446817640bf10f438f8e14b50da8d348e1ac6c71863  js/index.js  ->  js/pages/lessons.js  MODIFIED
+20b815b9e4b9d4d86851f517c6e07c77d3642e5e3e0fdec3b30495699025a659  js/landing.js  ->  js/pages/landing.js  MODIFIED
+1efbc657a4944ec69f40e41cb7e8b3df963a8f601e289c4c6dd0be126a60811f  js/lesson.js  ->  js/pages/lesson.js  MODIFIED
+081c02abd2caaa5ae68ffd7ecb86bb6f217d4ce1c855690f8e8986e8da19db3f  js/login-fx.js  ->  js/pages/login-fx.js
+d680714707cc377147704fd597d9226e90fbd1271d4e65048c0f2ab863965f36  js/login.js  ->  js/pages/login.js  MODIFIED
+cb514e6a07f2c74206b9b9456db9ed3728aea0e14080669e1081b57f953cdcbb  js/modal.js  ->  js/core/modal.js  MODIFIED
+ced0c476c7ffcc3d3d75aa932a5fd7cd875d89396173c66c23a0a402c6e17014  js/problem.js  ->  js/pages/problem.js  MODIFIED
+5e31d4cf00d0b02c51b6d248bde5cc9a5d8c05e5587fa18e821a258fe6232c54  js/py-worker.js  ->  js/code/py-worker.js
+2729c4f01eb439790813fba9577702ab50e5d0722d314b77d811675d6a7c13a5  js/runner.js  ->  js/code/runner.js  MODIFIED
+d230c44e330f643e7616f1c2a3517df2cde95f3f358451ec81aa488f1b723e69  js/search.js  ->  js/components/search.js  MODIFIED
+7fad7a426033422c43370b54cdb8e6e34c4d09cd46e7067ac0fd7cf1e1a697d0  js/splitter.js  ->  js/components/splitter.js  MODIFIED
+b71e2185649dbbb3a88b6a9801354c5a95e5598243bd7445431f0e7450525ad2  js/storage.js  ->  js/core/storage.js  MODIFIED
 d71e73815c98ac36a97148ebfa4aeb3e0914b3941c6a682a75bf469783d6f675  js/teacher/assignments.js  ->  js/teacher/assignments.js  MODIFIED
-33a5470d00b7abe23d5781b273fedc33815c4888d20acdb56391fe464ce94b8b  js/teacher/blocks.js  ->  js/teacher/blocks.js
-6fb89b3af93636160e5b6c1e34ab73d6ad724ab659ec4d8e3928c62b3f75164e  js/teacher/common.js  ->  js/teacher/common.js
-0b11e6325b788fdcff0de1cd83ff5b565113e284b6f6d429e5edbf8a322eaeca  js/teacher/dashboard.js  ->  js/teacher/dashboard.js
+33a5470d00b7abe23d5781b273fedc33815c4888d20acdb56391fe464ce94b8b  js/teacher/blocks.js  ->  js/teacher/blocks.js  MODIFIED
+6fb89b3af93636160e5b6c1e34ab73d6ad724ab659ec4d8e3928c62b3f75164e  js/teacher/common.js  ->  js/teacher/common.js  MODIFIED
+0b11e6325b788fdcff0de1cd83ff5b565113e284b6f6d429e5edbf8a322eaeca  js/teacher/dashboard.js  ->  js/teacher/dashboard.js  MODIFIED
 caab207212fdc92a7b4d48a5502ab76e32963128240d06037e7bbde0670cd20f  js/teacher/editor-kit.js  ->  js/teacher/editor-kit.js  MODIFIED
-42d5d47c389aa497b7c16ea10716794d2f0311aa3a3b5f68bd930611e8299c9d  js/teacher/exercise-edit.js  ->  js/teacher/exercise-edit.js
+42d5d47c389aa497b7c16ea10716794d2f0311aa3a3b5f68bd930611e8299c9d  js/teacher/exercise-edit.js  ->  js/teacher/exercise-edit.js  MODIFIED
 b2cdf9ed61ae1be9ee6aafa0d9c9a9423bb2bea21a669daf566ddc4fa3e3bd8b  js/teacher/index.js  ->  js/teacher/index.js  MODIFIED
 c3e8b919babd20e8b5db18e695caff5313257acd479ea0e92531f432a3263121  js/teacher/lesson-edit.js  ->  js/teacher/lesson-edit.js  MODIFIED
-56ff47f0ed4ec2d872ee52d1dd1842cea6766645fb7e6bfcd7a87964ee904a58  js/teacher/progress.js  ->  js/teacher/progress.js
+56ff47f0ed4ec2d872ee52d1dd1842cea6766645fb7e6bfcd7a87964ee904a58  js/teacher/progress.js  ->  js/teacher/progress.js  MODIFIED
 862c0a9ece9cff905df35f927bcb1bdf271191bde93dae06fb3540c314f93f2c  js/teacher/samples.js  ->  js/teacher/samples.js
-440558f24956cc392c06ec9b81e5f5ad48e7045691fa572dec87e52e5690c52c  js/teacher/students.js  ->  js/teacher/students.js
-5bd066584d826cb452a129af795e9dfc0339b54b6e1f2426b979cb99c4a93817  js/theme-init.js  ->  js/theme-init.js
-40b49ea7d0e066ff4fe5de7daba3d858b0a978d5b472c3baf58c8675f562a32d  js/theme.js  ->  js/theme.js
-5ce668fc843d533e52944c981b2bceec0d6840f3fd3b1cfb3378d6a9833d90f7  js/toast.js  ->  js/toast.js
-8ad141882745183c9ee229417c637daf06450b3da18f3a5f391855f141e5aa56  js/ui.js  ->  js/ui.js  MODIFIED
+440558f24956cc392c06ec9b81e5f5ad48e7045691fa572dec87e52e5690c52c  js/teacher/students.js  ->  js/teacher/students.js  MODIFIED
+5bd066584d826cb452a129af795e9dfc0339b54b6e1f2426b979cb99c4a93817  js/theme-init.js  ->  js/core/theme-init.js
+40b49ea7d0e066ff4fe5de7daba3d858b0a978d5b472c3baf58c8675f562a32d  js/theme.js  ->  js/core/theme.js  MODIFIED
+5ce668fc843d533e52944c981b2bceec0d6840f3fd3b1cfb3378d6a9833d90f7  js/toast.js  ->  js/core/toast.js  MODIFIED
+8ad141882745183c9ee229417c637daf06450b3da18f3a5f391855f141e5aa56  js/ui.js  ->  js/core/ui.js  MODIFIED
 01563d709574be4688f7ff66a9284b678b0321b286cb2007c859f542c820c71b  landing.html  ->  index.html  MODIFIED
 64364afc494bb90e5b00bc0df2bd69f579409716b8ddc24e358415d2db8610f7  lesson.html  ->  lesson.html  MODIFIED
-1cc963ff0542bb344698157e559c4a9a29f42ceaed7310cd292e465dd65fc030  login.html  ->  login.html
+1cc963ff0542bb344698157e559c4a9a29f42ceaed7310cd292e465dd65fc030  login.html  ->  login.html  MODIFIED
 ba6b62fa2b23179fcb4731c5bf8e8d9f607731f63b03fc22c90095b6b5f0b843  problem.html  ->  problem.html  MODIFIED
 c4f27157d4eed079c503c94f70d91ac58b54f2cbc3bccc985e275cb7a1a87e1f  teacher/assignments.html  ->  teacher/assignments.html  MODIFIED
 a47e6efbd4c0b72b9b1ab0360712574a85a028adbd010258e6400a73eca511de  teacher/dashboard.html  ->  teacher/dashboard.html  MODIFIED

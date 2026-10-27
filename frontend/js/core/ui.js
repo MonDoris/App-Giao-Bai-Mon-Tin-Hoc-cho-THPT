@@ -1,6 +1,6 @@
 // Tiện ích giao diện dùng chung (mọi nội dung chèn bằng textContent/createElement).
-import { el, clear } from '/js/dom.js';
-import { icon } from '/js/icons.js';
+import { el, clear } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
 
 export { icon };
 

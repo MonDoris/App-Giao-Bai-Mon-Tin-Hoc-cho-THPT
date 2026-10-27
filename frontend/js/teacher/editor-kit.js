@@ -1,10 +1,10 @@
 // Bộ thành phần dùng chung của hai trình soạn (bài học, bài tập): thanh bước dính, thanh lưu dính, chỉ báo lưu,
 // tổng hợp lỗi, danh sách kiểm tra, tab Soạn/Xem trước, menu, công tắc có chữ, nút chèn định dạng, Điền mẫu, Ctrl+S.
 // Mọi nội dung chèn bằng textContent/createElement (an toàn XSS).
-import { el, clear } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { confirmDialog } from '/js/modal.js';
-import { toast } from '/js/toast.js';
+import { el, clear } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { confirmDialog } from '/js/core/modal.js';
+import { toast } from '/js/core/toast.js';
 
 const pad2 = (n) => String(n).padStart(2, '0');
 export const hhmm = () => {

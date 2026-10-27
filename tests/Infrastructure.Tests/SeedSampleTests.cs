@@ -175,7 +175,7 @@ public class SeedSampleTests
         return output;
     }
 
-    /// <summary>Cùng quy tắc với js/grader.js: bỏ khoảng trắng cuối dòng và cuối đầu ra, đổi CRLF thành LF.</summary>
+    /// <summary>Cùng quy tắc với js/code/grader.js: bỏ khoảng trắng cuối dòng và cuối đầu ra, đổi CRLF thành LF.</summary>
     private static string Normalize(string s)
     {
         var lines = s.Replace("\r\n", "\n").Split('\n').Select(l => l.TrimEnd(' ', '\t', '\r', '\f', '\v'));

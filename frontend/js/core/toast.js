@@ -1,6 +1,6 @@
 // Toast (AC-273): phản hồi tạm thời trong vùng aria-live. Nội dung luôn chèn bằng textContent.
-import { el } from '/js/dom.js';
-import { icon } from '/js/icons.js';
+import { el } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
 
 const MAX_TOASTS = 3;
 const ICONS = { ok: 'check', info: 'info', warn: 'alert', error: 'alert-circle' };

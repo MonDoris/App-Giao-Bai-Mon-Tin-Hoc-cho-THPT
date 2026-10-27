@@ -1,4 +1,4 @@
-import { el } from './dom.js';
+import { el } from '/js/core/dom.js';
 
 /**
  * Trình soạn code nhẹ: textarea monospace + cột số dòng; phím Tab chèn 4 khoảng trắng.

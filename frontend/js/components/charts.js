@@ -1,9 +1,9 @@
 // Biểu đồ tự viết bằng SVG/CSS (không thư viện, không canvas). Màu chỉ đến từ lớp CSS (token trong style.css).
 // Mọi biểu đồ có tên truy cập đủ số liệu (role="img" + aria-label), kèm chữ và số hiển thị; chuyển động chạy một lần
 // khi vào khung nhìn (fx.onceInView): vòng chỉ đổi stroke-dashoffset, thanh chỉ đổi transform scaleX.
-import { el } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { onceInView } from '/js/fx.js';
+import { el } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { onceInView } from '/js/core/fx.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const RADIUS = 44;

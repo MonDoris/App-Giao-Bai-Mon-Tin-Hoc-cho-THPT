@@ -1,8 +1,8 @@
-import { api, ApiError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, skeleton } from '/js/dom.js';
-import { confirmDialog, showDialog } from '/js/modal.js';
-import { banner, chip, copyText, dataTable, debounce, downloadCsv, field, formatDateTime } from '/js/ui.js';
+import { api, ApiError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, skeleton } from '/js/core/dom.js';
+import { confirmDialog, showDialog } from '/js/core/modal.js';
+import { banner, chip, copyText, dataTable, debounce, downloadCsv, field, formatDateTime } from '/js/core/ui.js';
 import { errorText, finishLoading, pageContent, say } from '/js/teacher/common.js';
 
 await initPage({ role: 'Teacher', active: 'students' });

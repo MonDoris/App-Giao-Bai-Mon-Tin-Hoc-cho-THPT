@@ -1,13 +1,13 @@
 // Trình soạn bài học 4 bước (QD-72..QD-78): thanh bước dính, xem trước hai cột, thanh lưu dính, danh sách kiểm tra.
 // Dữ liệu gửi lên máy chủ và API không đổi so với bản cũ (AC-418).
-import { api, ApiError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, difficultyInfo, lessonSections } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { confirmDialog, showDialog } from '/js/modal.js';
-import { formDraft, uiPrefs } from '/js/storage.js';
-import { toast } from '/js/toast.js';
-import { banner, chip, debounce, field, guardUnsaved, setTitle, stateChip, withBusy } from '/js/ui.js';
+import { api, ApiError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, difficultyInfo, lessonSections } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { confirmDialog, showDialog } from '/js/core/modal.js';
+import { formDraft, uiPrefs } from '/js/core/storage.js';
+import { toast } from '/js/core/toast.js';
+import { banner, chip, debounce, field, guardUnsaved, setTitle, stateChip, withBusy } from '/js/core/ui.js';
 import { blockList } from '/js/teacher/blocks.js';
 import { backLink, difficultyLabel, errorText, finishLoading, pageContent, say } from '/js/teacher/common.js';
 import { checklist, errorSummary, fillSample, iconBtn, menuButton, onSave, purposeBox, saveBar, splitLayout, stepHead, wizard } from '/js/teacher/editor-kit.js';

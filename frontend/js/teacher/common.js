@@ -1,8 +1,8 @@
 // Tiện ích chung của khu giáo viên.
-import { ApiError, describeError } from '/js/api.js';
-import { el, clear } from '/js/dom.js';
-import { banner } from '/js/ui.js';
-import { toast } from '/js/toast.js';
+import { ApiError, describeError } from '/js/core/api.js';
+import { el, clear } from '/js/core/dom.js';
+import { banner } from '/js/core/ui.js';
+import { toast } from '/js/core/toast.js';
 
 export const DIFFICULTIES = [
   { value: 'Easy', label: 'Dễ' },

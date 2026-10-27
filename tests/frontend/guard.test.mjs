@@ -4,7 +4,7 @@
 // Cần Node >= 20.19 hoặc >= 22.7 (tự nhận ES module cho tệp .js không có package.json).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { homeFor, isSafeRedirect, joinApiUrl, sanitizeReturnUrl, signedInTarget } from '../../frontend/js/guard.js';
+import { homeFor, isSafeRedirect, joinApiUrl, sanitizeReturnUrl, signedInTarget } from '../../frontend/js/core/guard.js';
 
 const BOTH_NULL = [
   '/', '/index.html', '/index.html?x=1', '/index.html#a', '/INDEX.HTML', '/landing.html', '/landing.html?x=1',

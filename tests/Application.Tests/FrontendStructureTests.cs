@@ -43,7 +43,13 @@ public class FrontendStructureTests
         Assert.False(Directory.Exists(Path.Combine(RepoPaths.Src, "Web", "wwwroot")));
         Assert.Equal(15, HtmlFiles.Length);
         Assert.Equal(42, JsFiles.Length);
-        Assert.Equal(31, Directory.GetFiles(Path.Combine(Frontend, "js"), "*.js").Length);
+        // js/ chia theo vai trò: core (nền tảng), components (khung + widget), pages (từng trang), code (soạn/chạy Python), teacher
+        Assert.Empty(Directory.GetFiles(Path.Combine(Frontend, "js"), "*.js"));
+        Assert.Equal(new[] { "code", "components", "core", "pages", "teacher" }, Directory.GetDirectories(Path.Combine(Frontend, "js")).Select(Path.GetFileName).OrderBy(n => n, StringComparer.Ordinal));
+        Assert.Equal(13, Directory.GetFiles(Path.Combine(Frontend, "js", "core"), "*.js").Length);
+        Assert.Equal(5, Directory.GetFiles(Path.Combine(Frontend, "js", "components"), "*.js").Length);
+        Assert.Equal(9, Directory.GetFiles(Path.Combine(Frontend, "js", "pages"), "*.js").Length);
+        Assert.Equal(4, Directory.GetFiles(Path.Combine(Frontend, "js", "code"), "*.js").Length);
         Assert.Equal(11, Directory.GetFiles(Path.Combine(Frontend, "js", "teacher"), "*.js").Length);
         Assert.Single(Directory.GetFiles(Path.Combine(Frontend, "css")), f => Path.GetFileName(f) == "style.css");
         Assert.Equal(13, Directory.GetFiles(Path.Combine(Frontend, "fonts")).Length);
@@ -59,11 +65,11 @@ public class FrontendStructureTests
         var landing = Read("index.html");
         Assert.Contains("<title>Học Tin học 12 với Python – DK Edu</title>", landing);
         Assert.Single(Regex.Matches(landing, "<h1[ >]"));
-        Assert.Contains("src=\"/js/landing.js\"", landing);
+        Assert.Contains("src=\"/js/pages/landing.js\"", landing);
 
         var lessons = Read("lessons.html");
         Assert.Contains("<title>Danh sách bài học – DK Edu</title>", lessons);
-        Assert.Contains("src=\"/js/lessons.js\"", lessons);
+        Assert.Contains("src=\"/js/pages/lessons.js\"", lessons);
         Assert.Contains("<title>Bài học của tôi – DK Edu</title>", Read("teacher/index.html"));
     }
 
@@ -111,8 +117,8 @@ public class FrontendStructureTests
             Assert.DoesNotMatch(@"(?<![A-Za-z0-9_-])/index\.html", text);
         }
 
-        Assert.Equal(2, Regex.Matches(CodeOf("js/header.js"), "'/lessons.html'").Count);
-        foreach (var file in new[] { "js/assignments.js", "js/dashboard.js", "js/problem.js", "js/lesson.js" })
+        Assert.Equal(2, Regex.Matches(CodeOf("js/components/header.js"), "'/lessons.html'").Count);
+        foreach (var file in new[] { "js/pages/assignments.js", "js/pages/dashboard.js", "js/pages/problem.js", "js/pages/lesson.js" })
         {
             Assert.Contains("/lessons.html", CodeOf(file));
         }
@@ -164,17 +170,17 @@ public class FrontendStructureTests
         // Tệp ngoài manifest chỉ là hai tệp mới (AC-477)
         var listed = manifest.Select(l => Regex.Match(l, @"->  (\S+)").Groups[1].Value).ToHashSet();
         var extra = Directory.GetFiles(Frontend, "*", SearchOption.AllDirectories).Select(Rel).Where(f => !listed.Contains(f)).OrderBy(f => f).ToArray();
-        Assert.Equal(new[] { "img/hero-classroom.jpg", "js/config.js", "js/guard.js" }, extra);
+        Assert.Equal(new[] { "img/hero-classroom.jpg", "js/core/config.js", "js/core/guard.js" }, extra);
     }
 
     // ------------------------------------------------------------------ AC-484 đến AC-488: cấu hình và cổng gọi API
     [Fact]
     public void Config_module_exports_only_api_base_with_no_logic()
     {
-        var code = CodeOf("js/config.js");
+        var code = CodeOf("js/core/config.js");
         Assert.Matches(@"^\s*export const API_BASE = 'http://localhost:5000';\s*$", code);
         Assert.DoesNotMatch(@"location|localStorage|sessionStorage|document|window|import", code);
-        var raw = Read("js/config.js");
+        var raw = Read("js/core/config.js");
         Assert.Contains("Cors:AllowedOrigins", raw);
         Assert.Contains("''", raw);
     }
@@ -182,8 +188,8 @@ public class FrontendStructureTests
     [Fact]
     public void Api_module_is_the_only_gateway_and_always_uses_api_base_with_credentials_include()
     {
-        var api = CodeOf("js/api.js");
-        Assert.Contains("import { API_BASE } from '/js/config.js';", api);
+        var api = CodeOf("js/core/api.js");
+        Assert.Contains("import { API_BASE } from '/js/core/config.js';", api);
         Assert.Contains("function apiUrl(path)", api);
         Assert.Equal(3, Regex.Matches(api, @"\bfetch\(").Count);
         Assert.Equal(3, Regex.Matches(api, @"\bfetch\(apiUrl\(").Count);
@@ -197,14 +203,14 @@ public class FrontendStructureTests
             var code = Code(file);
             Assert.DoesNotMatch(@"credentials:\s*'(same-origin|omit)'", code);
             Assert.DoesNotMatch(@"XMLHttpRequest|navigator\.sendBeacon|EventSource|WebSocket", code);
-            if (Rel(file) == "js/api.js")
+            if (Rel(file) == "js/core/api.js")
             {
                 continue;
             }
 
             Assert.DoesNotMatch(@"\bfetch\(", code);
             Assert.DoesNotMatch(@"[""'`]/api/", code);
-            if (Rel(file) is not "js/config.js")
+            if (Rel(file) is not "js/core/config.js")
             {
                 Assert.DoesNotMatch(@"\bAPI_BASE\b", code);
             }
@@ -215,19 +221,19 @@ public class FrontendStructureTests
     public void Network_failures_are_reported_and_never_leave_a_blank_page()
     {
         // AC-489
-        var api = CodeOf("js/api.js");
+        var api = CodeOf("js/core/api.js");
         Assert.Contains("new ApiError({ kind: 'network', message: 'Không kết nối được máy chủ' })", api);
-        var auth = CodeOf("js/auth.js");
+        var auth = CodeOf("js/core/auth.js");
         var fatal = auth[auth.IndexOf("function renderFatal", StringComparison.Ordinal)..];
         Assert.Contains("removeAttribute('data-guard')", fatal[..fatal.IndexOf("main.append(box)", StringComparison.Ordinal)]);
-        Assert.Contains("Không kết nối được máy chủ, hãy kiểm tra kết nối rồi thử lại.", CodeOf("js/login.js"));
+        Assert.Contains("Không kết nối được máy chủ, hãy kiểm tra kết nối rồi thử lại.", CodeOf("js/pages/login.js"));
     }
 
     // ------------------------------------------------------------------ AC-507, AC-508: guard.js
     [Fact]
     public void Guard_module_is_dependency_free_and_exports_the_shared_rules()
     {
-        var guard = CodeOf("js/guard.js");
+        var guard = CodeOf("js/core/guard.js");
         Assert.DoesNotMatch(@"^\s*import\s", guard.Replace("\r", string.Empty));
         Assert.DoesNotContain("import ", guard);
         foreach (var name in new[] { "sanitizeReturnUrl", "homeFor", "redirectIfSignedIn", "onRestoreFromCache", "isSafeRedirect", "joinApiUrl" })
@@ -235,8 +241,8 @@ public class FrontendStructureTests
             Assert.Contains($"export function {name}(", guard.Replace("export async function", "export function"));
         }
 
-        Assert.Contains("export { homeFor };", CodeOf("js/api.js"));
-        Assert.DoesNotContain("function homeFor", CodeOf("js/api.js"));
+        Assert.Contains("export { homeFor };", CodeOf("js/core/api.js"));
+        Assert.DoesNotContain("function homeFor", CodeOf("js/core/api.js"));
         Assert.Contains("pageshow", guard);
         Assert.Contains("e.persisted", guard);
     }
@@ -254,9 +260,9 @@ public class FrontendStructureTests
             }
         }
 
-        Assert.Contains("role: 'Student'", CodeOf("js/dashboard.js"));
-        Assert.Contains("role: 'Student'", CodeOf("js/assignments.js"));
-        var auth = CodeOf("js/auth.js");
+        Assert.Contains("role: 'Student'", CodeOf("js/pages/dashboard.js"));
+        Assert.Contains("role: 'Student'", CodeOf("js/pages/assignments.js"));
+        var auth = CodeOf("js/core/auth.js");
         Assert.Contains("location.replace('/change-password.html')", auth);
         Assert.Contains("location.replace('/dashboard.html?notice=forbidden')", auth);
         Assert.Contains("location.replace('/teacher/dashboard.html')", auth);
@@ -293,7 +299,7 @@ public class FrontendStructureTests
     [Fact]
     public void Init_page_reveals_the_page_only_after_success_and_each_protected_page_calls_it_once()
     {
-        var auth = CodeOf("js/auth.js");
+        var auth = CodeOf("js/core/auth.js");
         var init = auth[auth.IndexOf("export async function initPage", StringComparison.Ordinal)..auth.IndexOf("function renderFatal", StringComparison.Ordinal)];
         var reveal = init.IndexOf("removeAttribute('data-guard')", StringComparison.Ordinal);
         Assert.True(reveal > 0);
@@ -315,7 +321,7 @@ public class FrontendStructureTests
     [Fact]
     public void Signed_in_hint_lives_only_in_storage_js_and_holds_no_identity()
     {
-        var storage = CodeOf("js/storage.js");
+        var storage = CodeOf("js/core/storage.js");
         foreach (var name in new[] { "markSignedIn", "clearSignedIn", "hasSignedInHint" })
         {
             Assert.Contains($"export function {name}()", storage);
@@ -323,28 +329,28 @@ public class FrontendStructureTests
 
         Assert.Contains("'th12.signedin'", storage);
         Assert.Contains("setItem(SIGNEDIN_KEY, '1')", storage);
-        var keys = Regex.Matches(storage + CodeOf("js/theme-init.js"), @"['""`]th12\.([a-z]+)['""`]").Select(m => m.Groups[1].Value).Distinct().OrderBy(x => x).ToArray();
+        var keys = Regex.Matches(storage + CodeOf("js/core/theme-init.js"), @"['""`]th12\.([a-z]+)['""`]").Select(m => m.Groups[1].Value).Distinct().OrderBy(x => x).ToArray();
         Assert.Equal(new[] { "sidebar", "signedin", "theme" }, keys);
 
-        var api = CodeOf("js/api.js");
+        var api = CodeOf("js/core/api.js");
         Assert.Contains("markSignedIn();", api);
         Assert.Equal(3, Regex.Matches(api, @"\bclearSignedIn\(\);").Count); // goToLogin, mọi 401, logout (kể cả khi API lỗi)
-        Assert.Contains("markSignedIn();", CodeOf("js/auth.js"));
+        Assert.Contains("markSignedIn();", CodeOf("js/core/auth.js"));
     }
 
     // ------------------------------------------------------------------ AC-513 đến AC-516: login, landing, 401
     [Fact]
     public void Login_and_landing_only_ask_the_server_when_the_hint_is_set_and_never_use_api_base()
     {
-        var landing = CodeOf("js/landing.js");
-        var login = CodeOf("js/login.js");
+        var landing = CodeOf("js/pages/landing.js");
+        var login = CodeOf("js/pages/login.js");
         foreach (var code in new[] { landing, login })
         {
             Assert.Contains("redirectIfSignedIn({ me: api.me, hasHint: hasSignedInHint, clearHint: clearSignedIn", code);
             Assert.Contains("onRestoreFromCache();", code);
             Assert.DoesNotContain("API_BASE", code);
-            Assert.DoesNotContain("/js/auth.js", code);
-            Assert.DoesNotContain("/js/header.js", code);
+            Assert.DoesNotContain("/js/core/auth.js", code);
+            Assert.DoesNotContain("/js/components/header.js", code);
         }
 
         Assert.All(Regex.Matches(landing, @"(?<![/\w])api\.\w+").Select(m => m.Value), v => Assert.Equal("api.me", v));
@@ -355,7 +361,7 @@ public class FrontendStructureTests
     [Fact]
     public void Go_to_login_skips_return_url_on_public_pages_and_marks_expiry_only_after_a_real_session()
     {
-        var api = CodeOf("js/api.js");
+        var api = CodeOf("js/core/api.js");
         var go = api[api.IndexOf("export function goToLogin", StringComparison.Ordinal)..api.IndexOf("async function readBody", StringComparison.Ordinal)];
         Assert.Contains("const wasSignedIn = hasSignedInHint();", go);
         Assert.Contains("clearSignedIn();", go);

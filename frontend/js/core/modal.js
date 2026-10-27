@@ -1,4 +1,4 @@
-import { el } from '/js/dom.js';
+import { el } from '/js/core/dom.js';
 
 let counter = 0;
 let openLayers = 0;

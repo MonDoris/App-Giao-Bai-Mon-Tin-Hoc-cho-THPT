@@ -24,7 +24,7 @@ public class FrontendHostingTests : IClassFixture<FrontendHostingFixture>
     [InlineData("/", "text/html", "frontend/index.html")]
     [InlineData("/login.html", "text/html", "frontend/login.html")]
     [InlineData("/teacher/", "text/html", "frontend/teacher/index.html")]
-    [InlineData("/js/api.js", "text/javascript", "frontend/js/api.js")]
+    [InlineData("/js/core/api.js", "text/javascript", "frontend/js/core/api.js")]
     [InlineData("/css/style.css", "text/css", "frontend/css/style.css")]
     public async Task Frontend_files_are_served_with_correct_type_security_headers_and_no_cache(string url, string mediaType, string file)
     {

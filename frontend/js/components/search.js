@@ -1,10 +1,10 @@
 // Tìm nhanh (Ctrl+K): các đích điều hướng của role luôn có sẵn; tên bài học chỉ tải ở lần mở đầu tiên bằng API sẵn có
 // (GET /api/lessons hoặc GET /api/teacher/lessons) rồi nhớ trong phiên trang. Mọi chữ chèn bằng textContent.
-import { api } from '/js/api.js';
-import { el, clear } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { showDialog } from '/js/modal.js';
-import { navGroups } from '/js/header.js';
+import { api } from '/js/core/api.js';
+import { el, clear } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { showDialog } from '/js/core/modal.js';
+import { navGroups } from '/js/components/header.js';
 
 let lessonsPromise = null;
 

@@ -1,11 +1,11 @@
 // Giao bài: biểu mẫu theo bước (bài học, bài tập, đối tượng, hạn nộp) với thẻ tóm tắt dính bên phải,
 // và danh sách lượt giao dạng thẻ có tiến độ nộp bài. API và quy tắc kiểm tra giữ nguyên như bản cũ.
-import { api, ApiError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox, skeleton, difficultyInfo } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { confirmDialog, showDialog } from '/js/modal.js';
-import { banner, chip, debounce, field, formatDateTime, fromLocalInput, stateChip, timeZoneLabel, toLocalInputValue, withBusy } from '/js/ui.js';
+import { api, ApiError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox, skeleton, difficultyInfo } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { confirmDialog, showDialog } from '/js/core/modal.js';
+import { banner, chip, debounce, field, formatDateTime, fromLocalInput, stateChip, timeZoneLabel, toLocalInputValue, withBusy } from '/js/core/ui.js';
 import { difficultyLabel, errorText, finishLoading, pageContent, say } from '/js/teacher/common.js';
 
 await initPage({ role: 'Teacher', active: 'assign' });

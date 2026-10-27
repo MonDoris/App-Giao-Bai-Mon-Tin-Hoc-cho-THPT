@@ -2,11 +2,11 @@
 // và thanh trên (header#site-header: nút Menu, vị trí hiện tại, tìm nhanh, đổi giao diện, menu người dùng).
 // >= 900 px thanh bên cố định (264 px) hoặc rail (72 px, lưu ở localStorage th12.sidebar); dưới 900 px là ngăn kéo.
 // Tên người dùng luôn chèn bằng textContent.
-import { el } from '/js/dom.js';
-import { api, homeFor } from '/js/api.js';
-import { icon } from '/js/icons.js';
-import { createThemeButton } from '/js/theme.js';
-import { uiPrefs } from '/js/storage.js';
+import { el } from '/js/core/dom.js';
+import { api, homeFor } from '/js/core/api.js';
+import { icon } from '/js/core/icons.js';
+import { createThemeButton } from '/js/core/theme.js';
+import { uiPrefs } from '/js/core/storage.js';
 
 export function roleLabel(role) {
   return role === 'Teacher' ? 'Giáo viên' : 'Học sinh';
@@ -354,7 +354,7 @@ export function renderHeader(user, activeKey = '') {
     closeDrawer(false);
     closeMenu(false);
     try {
-      const { openQuickSearch } = await import('/js/search.js');
+      const { openQuickSearch } = await import('/js/components/search.js');
       await openQuickSearch(user, searchBtn);
     } finally {
       searching = false;

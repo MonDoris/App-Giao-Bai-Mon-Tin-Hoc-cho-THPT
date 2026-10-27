@@ -1,7 +1,7 @@
-import { api, ApiError, homeFor } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { banner, debounce } from '/js/ui.js';
-import { clear } from '/js/dom.js';
+import { api, ApiError, homeFor } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { banner, debounce } from '/js/core/ui.js';
+import { clear } from '/js/core/dom.js';
 
 const user = await initPage({ active: 'password' });
 

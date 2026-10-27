@@ -12,10 +12,10 @@
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-400-normal.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-700-normal.woff2">
-  <script src="/js/theme-init.js"></script>
+  <script src="/js/core/theme-init.js"></script>
   <link rel="stylesheet" href="/css/style.css">
   <noscript><style>html[data-guard] body{visibility:visible}</style></noscript>
-  <!-- Pyodide phiên bản cố định (khớp js/py-worker.js). Chỉ trang làm bài mới nạp; worker dùng lại bản đã cache. -->
+  <!-- Pyodide phiên bản cố định (khớp js/code/py-worker.js). Chỉ trang làm bài mới nạp; worker dùng lại bản đã cache. -->
   <link rel="preload" as="script" crossorigin="anonymous" href="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js">
 </head>
 <body data-shell>
@@ -28,6 +28,6 @@
     <div id="problem-root"></div>
   </main>
 
-  <script type="module" src="/js/problem.js"></script>
+  <script type="module" src="/js/pages/problem.js"></script>
 </body>
 </html>

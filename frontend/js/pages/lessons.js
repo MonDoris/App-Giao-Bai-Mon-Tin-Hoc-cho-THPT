@@ -1,10 +1,10 @@
 // Danh sách bài học (học sinh; giáo viên xem như học sinh). Bảng điều khiển đã chuyển sang dashboard.js (QD-64).
-import { api, describeError } from '/js/api.js';
-import { initPage } from '/js/auth.js';
-import { el, clear, stateBox } from '/js/dom.js';
-import { enableCardEffects, revealOnView } from '/js/fx.js';
-import { count } from '/js/charts.js';
-import { lessonCard } from '/js/dash-kit.js';
+import { api, describeError } from '/js/core/api.js';
+import { initPage } from '/js/core/auth.js';
+import { el, clear, stateBox } from '/js/core/dom.js';
+import { enableCardEffects, revealOnView } from '/js/core/fx.js';
+import { count } from '/js/components/charts.js';
+import { lessonCard } from '/js/components/dash-kit.js';
 
 const user = await initPage({ active: 'lessons' });
 const isTeacher = user.role === 'Teacher';

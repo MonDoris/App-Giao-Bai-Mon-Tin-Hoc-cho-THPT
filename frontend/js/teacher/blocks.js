@@ -2,9 +2,9 @@
 // Dữ liệu lưu lên máy chủ VẪN là mảng chuỗi cũ: loại đoạn được suy ra từ nội dung, ký hiệu kỹ thuật chỉ ẩn trên màn hình
 // và được thêm lại khi lấy giá trị (parseBlock/composeBlock đối xứng, nạp rồi lưu không sửa thì chuỗi y nguyên).
 // Nội dung giáo viên nhập là văn bản thuần, chỉ hiển thị bằng textContent.
-import { el, clear } from '/js/dom.js';
-import { icon } from '/js/icons.js';
-import { toast } from '/js/toast.js';
+import { el, clear } from '/js/core/dom.js';
+import { icon } from '/js/core/icons.js';
+import { toast } from '/js/core/toast.js';
 import { iconBtn, menuButton, roving, switchEl, toggleInlineCode } from '/js/teacher/editor-kit.js';
 
 const CODE_RE = /^```([^\n`]*)\n([\s\S]*)\n```$/;
