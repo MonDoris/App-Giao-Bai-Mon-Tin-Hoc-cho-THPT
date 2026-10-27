@@ -1,6 +1,6 @@
 ﻿-- =====================================================================
 -- seed-users.sql : tài khoản mẫu, lớp mẫu và giao bài mẫu (SQL Server / T-SQL)
---   * 1 giáo viên: giaovien ; 3 học sinh: hs01, hs02, hs03 (mật khẩu: xem database/HUONG-DAN-TAI-KHOAN.md)
+--   * 1 giáo viên: giaovien ; 3 học sinh: hs01, hs02, hs03 (mật khẩu: xem docs/guides/HUONG-DAN-TAI-KHOAN.md)
 --   * Lớp 12A1 (hs01, hs02), lớp 12A2 (hs03)
 --   * Giao bài: 4 bài tập của Bài 1-2 cho TẤT CẢ học sinh; 2 bài tập của Bài 3 chỉ cho lớp 12A1
 --     (hs01/hs02 thấy 6 bài tập, hs03 thấy 4 bài tập), không hạn nộp.

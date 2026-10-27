@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace TinHoc12.Application.Mapping;
+namespace TinHoc12.Application.Rules;
 
 /// <summary>Sinh mã (slug) từ tiêu đề tiếng Việt (QD-36): bỏ dấu, chữ thường, ký tự lạ thành "-", gộp "-".</summary>
 public static class SlugGenerator

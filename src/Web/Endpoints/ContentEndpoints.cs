@@ -1,5 +1,5 @@
 using TinHoc12.Application.Dtos;
-using TinHoc12.Application.UseCases;
+using TinHoc12.Application.UseCases.Lessons;
 using TinHoc12.Application.UseCases.Student;
 using TinHoc12.Web.Middleware;
 using TinHoc12.Web.Security;

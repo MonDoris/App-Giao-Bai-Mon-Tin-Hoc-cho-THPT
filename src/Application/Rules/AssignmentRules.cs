@@ -1,7 +1,7 @@
 using TinHoc12.Application.Abstractions;
 using TinHoc12.Application.Dtos;
 
-namespace TinHoc12.Application.Mapping;
+namespace TinHoc12.Application.Rules;
 
 /// <summary>Quy tắc nghiệp vụ về assignment hiệu lực (QD-27) và trạng thái học sinh (AC-129..134, AC-139).</summary>
 public static class AssignmentRules

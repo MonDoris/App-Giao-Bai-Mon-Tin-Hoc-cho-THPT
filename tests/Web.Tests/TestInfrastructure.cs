@@ -60,8 +60,8 @@ public sealed class AppFactory : WebApplicationFactory<Program>
         var database = System.IO.Path.Combine(RepoRoot.Path, "database");
         _settings["Database:Provider"] = "Sqlite";
         _settings["ConnectionStrings:DefaultConnection"] = ConnectionFor(name);
-        _settings["Database:SeedScript"] = System.IO.Path.Combine(database, "seed-sample.sqlite.sql");
-        _settings["Database:SeedUsersScript"] = System.IO.Path.Combine(database, "seed-users.sqlite.sql");
+        _settings["Database:SeedScript"] = System.IO.Path.Combine(database, "sqlite/seed-sample.sqlite.sql");
+        _settings["Database:SeedUsersScript"] = System.IO.Path.Combine(database, "sqlite/seed-users.sqlite.sql");
         _settings["Auth:LoginRatePerMinute"] = "100000";
         // Test mặc định kiểm tra backend API-only; chế độ phục vụ frontend được bật riêng trong FrontendHostingTests.
         _settings["Frontend:ServeFromBackend"] = "false";

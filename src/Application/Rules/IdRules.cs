@@ -1,4 +1,4 @@
-namespace TinHoc12.Application.Mapping;
+namespace TinHoc12.Application.Rules;
 
 /// <summary>Quy ước ID dạng slug [a-z0-9-], tối đa 100 ký tự.</summary>
 public static class IdRules

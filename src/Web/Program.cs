@@ -2,18 +2,18 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using TinHoc12.Application.Abstractions;
 using TinHoc12.Application.Security;
-using TinHoc12.Application.UseCases;
 using TinHoc12.Application.UseCases.Assignments;
 using TinHoc12.Application.UseCases.Auth;
 using TinHoc12.Application.UseCases.Authoring;
+using TinHoc12.Application.UseCases.Lessons;
 using TinHoc12.Application.UseCases.Progress;
 using TinHoc12.Application.UseCases.Student;
 using TinHoc12.Application.UseCases.Students;
 using TinHoc12.Infrastructure;
-using TinHoc12.Web;
 using TinHoc12.Web.Endpoints;
 using TinHoc12.Web.Middleware;
 using TinHoc12.Web.Security;
+using TinHoc12.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 

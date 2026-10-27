@@ -1,7 +1,7 @@
 using System.Text.Json;
 using TinHoc12.Application.Exceptions;
 using TinHoc12.Application.Security;
-using TinHoc12.Application.UseCases;
+using TinHoc12.Application.UseCases.Lessons;
 using TinHoc12.Domain.Entities;
 
 namespace TinHoc12.Application.Tests;

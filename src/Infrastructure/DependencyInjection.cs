@@ -51,7 +51,7 @@ public static class DependencyInjection
 
     /// <summary>
     /// Môi trường Development: với SQL Server thì tự áp migration (tạo DB nếu chưa có, giữ nguyên dữ liệu đã có) rồi nạp
-    /// database/seed-sample.sql (khi chưa có bài học) và database/seed-users.sql (khi chưa có tài khoản).
+    /// database/sqlserver/seed-sample.sql (khi chưa có bài học) và database/sqlserver/seed-users.sql (khi chưa có tài khoản).
     /// Nhánh Sqlite CHỈ PHỤC VỤ KIỂM THỬ (đọc Database:SeedScript/SeedUsersScript), không dùng khi chạy ứng dụng.
     /// </summary>
     public static async Task InitializeDevelopmentDatabaseAsync(this IServiceProvider services, IConfiguration configuration, string contentRootPath)
@@ -68,7 +68,7 @@ public static class DependencyInjection
         }
 
         await DevelopmentDatabaseInitializer.InitializeSqlServerAsync(
-            db, FindDatabaseScript("seed-sample.sql", contentRootPath), FindDatabaseScript("seed-users.sql", contentRootPath));
+            db, FindDatabaseScript("sqlserver/seed-sample.sql", contentRootPath), FindDatabaseScript("sqlserver/seed-users.sql", contentRootPath));
     }
 
     private static string? ResolvePath(string? path, string contentRootPath) =>

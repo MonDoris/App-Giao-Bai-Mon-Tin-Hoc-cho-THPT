@@ -1,9 +1,9 @@
 using TinHoc12.Application.Abstractions;
 using TinHoc12.Application.Dtos;
-using TinHoc12.Application.Mapping;
+using TinHoc12.Application.Rules;
 using TinHoc12.Application.Security;
 
-namespace TinHoc12.Application.UseCases;
+namespace TinHoc12.Application.UseCases.Lessons;
 
 /// <summary>
 /// Lấy danh sách bài học (trang chủ). Học sinh chỉ thấy bài đã xuất bản và số bài tập được giao (QD-26);

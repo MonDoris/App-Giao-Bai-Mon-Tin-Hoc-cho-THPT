@@ -23,8 +23,8 @@ public class SeedUsersTests
         var db = new TestDb();
         for (var i = 0; i < times; i++)
         {
-            Run(db.Connection, "seed-sample.sqlite.sql");
-            Run(db.Connection, "seed-users.sqlite.sql");
+            Run(db.Connection, "sqlite/seed-sample.sqlite.sql");
+            Run(db.Connection, "sqlite/seed-users.sqlite.sql");
         }
 
         return db;
@@ -94,9 +94,9 @@ public class SeedUsersTests
     }
 
     [Theory]
-    [InlineData("seed-users.sql")]
-    [InlineData("seed-users.sqlite.sql")]
-    [InlineData("mo-khoa-tai-khoan.sql")]
+    [InlineData("sqlserver/seed-users.sql")]
+    [InlineData("sqlite/seed-users.sqlite.sql")]
+    [InlineData("scripts/mo-khoa-tai-khoan.sql")]
     public void Scripts_never_contain_plain_text_passwords(string file)
     {
         var text = File.ReadAllText(Path.Combine(Database, file));
@@ -107,7 +107,7 @@ public class SeedUsersTests
     [Fact]
     public void Tsql_script_is_transactional_idempotent_by_construction_and_declares_the_sample_data()
     {
-        var text = File.ReadAllText(Path.Combine(Database, "seed-users.sql"));
+        var text = File.ReadAllText(Path.Combine(Database, "sqlserver/seed-users.sql"));
         Assert.Contains("BEGIN TRANSACTION", text);
         Assert.Contains("ROLLBACK", text);
         Assert.Equal(4, System.Text.RegularExpressions.Regex.Matches(text, @"IF NOT EXISTS \(SELECT 1 FROM \[Users\]").Count);

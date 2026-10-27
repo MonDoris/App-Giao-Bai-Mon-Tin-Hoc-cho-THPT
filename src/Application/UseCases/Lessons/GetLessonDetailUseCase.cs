@@ -2,9 +2,10 @@ using TinHoc12.Application.Abstractions;
 using TinHoc12.Application.Dtos;
 using TinHoc12.Application.Exceptions;
 using TinHoc12.Application.Mapping;
+using TinHoc12.Application.Rules;
 using TinHoc12.Application.Security;
 
-namespace TinHoc12.Application.UseCases;
+namespace TinHoc12.Application.UseCases.Lessons;
 
 /// <summary>Lấy chi tiết một bài học (không bao gồm đáp án), lọc theo quyền của người gọi.</summary>
 public sealed class GetLessonDetailUseCase

@@ -1,10 +1,10 @@
 using TinHoc12.Application.Abstractions;
 using TinHoc12.Application.Dtos;
 using TinHoc12.Application.Exceptions;
-using TinHoc12.Application.Mapping;
+using TinHoc12.Application.Rules;
 using TinHoc12.Application.Security;
 
-namespace TinHoc12.Application.UseCases;
+namespace TinHoc12.Application.UseCases.Lessons;
 
 /// <summary>
 /// Lấy đáp án của một bài tập (chỉ gọi sau khi học sinh xác nhận trên giao diện). Học sinh phải được giao bài tập đó (AC-129);

@@ -78,8 +78,8 @@ public class SqlServerMigrationTests
                 ctx.GetService<IMigrator>().Migrate("20261019021148_InitialCreate");
             }
 
-            Exec(db, Script("seed-sample.sql"));
-            Exec(db, Script("them-bai-moi.sql"));
+            Exec(db, Script("sqlserver/seed-sample.sql"));
+            Exec(db, Script("scripts/them-bai-moi.sql"));
             var lessons = Scalar<int>(db, "SELECT COUNT(*) FROM Lessons");
             var exercises = Scalar<int>(db, "SELECT COUNT(*) FROM Exercises");
             var tests = Scalar<int>(db, "SELECT COUNT(*) FROM TestCases");
@@ -100,8 +100,8 @@ public class SqlServerMigrationTests
             Assert.Equal(exercises, Scalar<int>(db, "SELECT COUNT(*) FROM Exercises WHERE IsPublished = 1 AND IsArchived = 0 AND Version = 1"));
 
             // 3) Script tài khoản mẫu chạy hai lần, hash xác thực được.
-            Exec(db, Script("seed-users.sql"));
-            Exec(db, Script("seed-users.sql"));
+            Exec(db, Script("sqlserver/seed-users.sql"));
+            Exec(db, Script("sqlserver/seed-users.sql"));
             Assert.Equal(4, Scalar<int>(db, "SELECT COUNT(*) FROM Users"));
             Assert.Equal(2, Scalar<int>(db, "SELECT COUNT(*) FROM Classes"));
             Assert.Equal(3, Scalar<int>(db, "SELECT COUNT(*) FROM ClassMembers"));
@@ -142,11 +142,11 @@ public class SqlServerMigrationTests
 
             // 6) Mở khóa bằng script.
             Exec(db, "UPDATE Users SET FailedLoginCount = 4, LockoutEndUtc = DATEADD(MINUTE, 10, SYSUTCDATETIME()) WHERE Username = N'hs01'");
-            Exec(db, Script("mo-khoa-tai-khoan.sql").Replace("N'giaovien'", "N'HS01'"));
+            Exec(db, Script("scripts/mo-khoa-tai-khoan.sql").Replace("N'giaovien'", "N'HS01'"));
             Assert.Equal(0, Scalar<int>(db, "SELECT COUNT(*) FROM Users WHERE Username = N'hs01' AND (FailedLoginCount <> 0 OR LockoutEndUtc IS NOT NULL)"));
 
             // 7) schema.sql idempotent chạy được trên DB đã migrate và trên DB trống.
-            foreach (var batch in SplitBatches(Script("schema.sql")))
+            foreach (var batch in SplitBatches(Script("sqlserver/schema.sql")))
             {
                 Exec(db, batch);
             }

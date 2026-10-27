@@ -8,14 +8,14 @@ Nội dung bài học nằm trong cơ sở dữ liệu SQL Server (3 bảng `Les
 1. Cần .NET SDK 10 và SQL Server Express. Chuỗi kết nối: `src/Web/appsettings.json`, khóa `ConnectionStrings:DefaultConnection` (mặc định `.SQLEXPRESS`, DB `DKEducation`).
 2. Tạo DB (chọn một cách):
    - `dotnet ef database update --project src/Infrastructure --startup-project src/Web` (DB sẽ được tự tạo), hoặc
-   - tạo DB rỗng rồi chạy `database/schema.sql` (có thể chạy nhiều lần).
-3. Nạp 3 bài mẫu (dữ liệu mẫu nạp bằng script, không nạp trong code): `database/seed-sample.sql` (chạy lại không bị trùng).
-   `sqlcmd -S ".\SQLEXPRESS" -d DKEducation -I -f 65001 -i database/seed-sample.sql`
+   - tạo DB rỗng rồi chạy `database/sqlserver/schema.sql` (có thể chạy nhiều lần).
+3. Nạp 3 bài mẫu (dữ liệu mẫu nạp bằng script, không nạp trong code): `database/sqlserver/seed-sample.sql` (chạy lại không bị trùng).
+   `sqlcmd -S ".\SQLEXPRESS" -d DKEducation -I -f 65001 -i database/sqlserver/seed-sample.sql`
    Nếu DB đã nạp bản cũ, chạy lại tệp này vẫn cập nhật nội dung 3 bài mẫu (các câu `UPDATE` cuối tệp; chỉ ghi đè Summary/Notes/Conclusion của 3 bài mẫu, không đụng bài khác).
 4. Chạy ứng dụng (hai tiến trình): API bằng `dotnet run --project src/Web` (cổng 5000), giao diện bằng `python -m http.server 5173 --directory frontend` (hoặc `npx http-server frontend -p 5173 -c-1`), rồi mở `http://localhost:5173/`. **Chỉ dùng SQL Server**; ở môi trường Development ứng dụng tự áp migration và nạp seed nếu DB còn trống, nên bài thêm bằng script SQL sẽ hiện ngay. Muốn đổi máy chủ, đặt biến môi trường `ConnectionStrings__DefaultConnection`.
 
 ## 2. Thêm bài mới
-Sao chép `database/them-bai-moi.sql` thành tệp mới, sửa nội dung, rồi chạy (SSMS, Azure Data Studio hoặc `sqlcmd` như trên). Tải lại trang chủ là thấy bài mới. Script chạy trong một giao dịch: lỗi thì tự hoàn tác.
+Sao chép `database/scripts/them-bai-moi.sql` thành tệp mới, sửa nội dung, rồi chạy (SSMS, Azure Data Studio hoặc `sqlcmd` như trên). Tải lại trang chủ là thấy bài mới. Script chạy trong một giao dịch: lỗi thì tự hoàn tác.
 
 ## 3. Ý nghĩa các cột
 **Lessons**: `Id` (slug `[a-z0-9-]`, ≤ 100 ký tự, duy nhất), `Order` (thứ tự hiển thị, duy nhất), `Title`, `Description` (mô tả ngắn), `Summary`, `Notes` (≥ 1 ý), `Conclusion` (ba cột này là **mảng JSON** các chuỗi).

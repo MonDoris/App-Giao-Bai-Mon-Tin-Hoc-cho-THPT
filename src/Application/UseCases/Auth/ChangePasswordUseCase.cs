@@ -1,7 +1,7 @@
 using TinHoc12.Application.Abstractions;
 using TinHoc12.Application.Dtos;
 using TinHoc12.Application.Exceptions;
-using TinHoc12.Application.Mapping;
+using TinHoc12.Application.Rules;
 using TinHoc12.Application.Security;
 
 namespace TinHoc12.Application.UseCases.Auth;

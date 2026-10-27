@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Text;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using TinHoc12.Application.UseCases;
+using TinHoc12.Application.UseCases.Lessons;
 using TinHoc12.Infrastructure.Repositories;
 
 namespace TinHoc12.Infrastructure.Tests;
@@ -29,7 +29,7 @@ public class SeedSampleTests
     private static GetLessonDetailUseCase Detail(TinHoc12.Infrastructure.Persistence.AppDbContext ctx) => new(
         new LessonRepository(ctx), new AssignmentRepository(ctx), new SubmissionRepository(ctx), new TinHoc12.Infrastructure.Security.SystemClock());
 
-    private static string SeedScript => File.ReadAllText(Path.Combine(RepoRoot(), "database", "seed-sample.sqlite.sql"));
+    private static string SeedScript => File.ReadAllText(Path.Combine(RepoRoot(), "database", "sqlite/seed-sample.sqlite.sql"));
 
     private static void RunScript(SqliteConnection connection, string script)
     {

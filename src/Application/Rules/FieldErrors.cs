@@ -1,6 +1,6 @@
 using TinHoc12.Application.Exceptions;
 
-namespace TinHoc12.Application.Mapping;
+namespace TinHoc12.Application.Rules;
 
 /// <summary>Gom lỗi kiểm tra đầu vào theo từng trường rồi ném ValidationFailedException một lần (AC-113).</summary>
 public sealed class FieldErrors

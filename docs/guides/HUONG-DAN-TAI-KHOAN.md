@@ -1,7 +1,7 @@
 # Hướng dẫn tài khoản, đăng nhập và giao bài (DK Edu)
 
 ## 1. Tài khoản mẫu
-Chạy `database/seed-users.sql` (SQL Server; ở môi trường Development ứng dụng tự nạp khi bảng tài khoản còn trống). Script chạy lại nhiều lần không bị trùng; mật khẩu lưu dạng **băm PBKDF2** (script không chứa mật khẩu thô).
+Chạy `database/sqlserver/seed-users.sql` (SQL Server; ở môi trường Development ứng dụng tự nạp khi bảng tài khoản còn trống). Script chạy lại nhiều lần không bị trùng; mật khẩu lưu dạng **băm PBKDF2** (script không chứa mật khẩu thô).
 
 | Vai trò | Tên đăng nhập | Mật khẩu mẫu | Lớp |
 |---|---|---|---|
@@ -13,7 +13,7 @@ Giao bài mẫu: 4 bài tập của Bài 1–2 giao cho **tất cả** học sin
 
 > **CẢNH BÁO: phải đổi mật khẩu mẫu (hoặc xóa tài khoản mẫu) trước khi triển khai thật.** Khi ứng dụng khởi động ở môi trường `Production` mà tài khoản mẫu còn dùng mật khẩu mặc định, nhật ký có cảnh báo "Tài khoản mẫu vẫn dùng mật khẩu mặc định" (không ghi mật khẩu).
 
-Lệnh nạp (SQL Server Express): `sqlcmd -S ".\SQLEXPRESS" -d DKEducation -I -f 65001 -i database/seed-users.sql`. Hoặc chỉ cần `dotnet run --project src/Web` (Development tự áp migration và nạp seed nếu DB còn trống).
+Lệnh nạp (SQL Server Express): `sqlcmd -S ".\SQLEXPRESS" -d DKEducation -I -f 65001 -i database/sqlserver/seed-users.sql`. Hoặc chỉ cần `dotnet run --project src/Web` (Development tự áp migration và nạp seed nếu DB còn trống).
 
 ## 2. Tạo giáo viên mới
 Giao diện **không** có chức năng tạo giáo viên (và không có đăng ký tự do). Hai cách:
@@ -23,7 +23,7 @@ Giao diện **không** có chức năng tạo giáo viên (và không có đăng
 Tên đăng nhập dài 3–50 ký tự `[a-z0-9._-]` (lưu chữ thường). Mật khẩu 8–128 ký tự, có chữ cái và chữ số. **Quên mật khẩu:** giáo viên đặt lại cho học sinh ở trang *Học sinh*; với giáo viên dùng cách tạo hash ở trên.
 
 ## 3. Mở khóa tài khoản
-Nhập sai 5 lần liên tiếp thì bị khóa tạm 15 phút. Giáo viên mở khóa học sinh ở trang *Học sinh*; với tài khoản giáo viên hãy chờ hết hạn hoặc chạy `database/mo-khoa-tai-khoan.sql` (sửa `@Username`).
+Nhập sai 5 lần liên tiếp thì bị khóa tạm 15 phút. Giáo viên mở khóa học sinh ở trang *Học sinh*; với tài khoản giáo viên hãy chờ hết hạn hoặc chạy `database/scripts/mo-khoa-tai-khoan.sql` (sửa `@Username`).
 
 ## 4. Giao bài tập cho bài thêm bằng script SQL
 Bài/bài tập thêm bằng `them-bai-moi.sql` mặc định **đã xuất bản** nhưng học sinh **chỉ thấy bài tập sau khi được giao**. Có thể giao trên giao diện (*Giao bài*) hoặc bằng SQL (giao cho tất cả học sinh, không hạn):

@@ -52,20 +52,20 @@ Mở **http://localhost:5173/** (landing; bấm "Đăng nhập"). Dùng đúng t
 
 - Không khuyến nghị `npx serve`: `serve` mặc định bật "clean URLs" (đổi `/login.html` thành `/login`), làm hỏng kiểm tra đường dẫn của giao diện và cần tệp cấu hình `serve.json`.
 - Static server phải trả tệp `.js` với `Content-Type: text/javascript` (ES modules sẽ không chạy nếu là `text/plain`). Một số máy Windows có registry sai khiến `python -m http.server` trả sai MIME; khi gặp thì dùng `npx http-server`.
-- Ở môi trường Development, khi khởi động API tự áp migration lên DB `DKEducation` của `.\SQLEXPRESS` (tạo mới nếu chưa có, không xóa dữ liệu đã có) và nạp `database/seed-sample.sql` + `database/seed-users.sql` nếu bảng bài học/tài khoản còn trống. Production không tự đụng tới DB.
+- Ở môi trường Development, khi khởi động API tự áp migration lên DB `DKEducation` của `.\SQLEXPRESS` (tạo mới nếu chưa có, không xóa dữ liệu đã có) và nạp `database/sqlserver/seed-sample.sql` + `database/sqlserver/seed-users.sql` nếu bảng bài học/tài khoản còn trống. Production không tự đụng tới DB.
 
-**Tài khoản mẫu** (đổi trước khi triển khai thật): giáo viên `giaovien` / `GiaoVien@2026`; học sinh `hs01`, `hs02`, `hs03` / `HocSinh@2026`. Chi tiết: `database/HUONG-DAN-TAI-KHOAN.md`.
+**Tài khoản mẫu** (đổi trước khi triển khai thật): giáo viên `giaovien` / `GiaoVien@2026`; học sinh `hs01`, `hs02`, `hs03` / `HocSinh@2026`. Chi tiết: `docs/guides/HUONG-DAN-TAI-KHOAN.md`.
 
 ### Đổi chuỗi kết nối
 Sửa `ConnectionStrings:DefaultConnection` trong `src/Web/appsettings.json` hoặc đặt biến môi trường `ConnectionStrings__DefaultConnection`.
 
 ### Nạp seed / tạo DB thủ công
-- Tạo/nâng cấp DB: `dotnet ef database update --project src/Infrastructure --startup-project src/Web` hoặc chạy `database/schema.sql` (idempotent).
-- Nạp dữ liệu mẫu: `database/seed-sample.sql` rồi `database/seed-users.sql` (`sqlcmd -S ".\SQLEXPRESS" -d DKEducation -I -f 65001 -i <tệp>`).
+- Tạo/nâng cấp DB: `dotnet ef database update --project src/Infrastructure --startup-project src/Web` hoặc chạy `database/sqlserver/schema.sql` (idempotent).
+- Nạp dữ liệu mẫu: `database/sqlserver/seed-sample.sql` rồi `database/sqlserver/seed-users.sql` (`sqlcmd -S ".\SQLEXPRESS" -d DKEducation -I -f 65001 -i <tệp>`).
 
-Môi trường thật phải dùng **HTTPS** (`ASPNETCORE_ENVIRONMENT=Production`); xem mục cấu hình `Auth:*` và khóa Data Protection trong `database/HUONG-DAN-TAI-KHOAN.md`.
+Môi trường thật phải dùng **HTTPS** (`ASPNETCORE_ENVIRONMENT=Production`); xem mục cấu hình `Auth:*` và khóa Data Protection trong `docs/guides/HUONG-DAN-TAI-KHOAN.md`.
 
-Thêm bài bằng giao diện (khu giáo viên) hoặc bằng script SQL (`database/HUONG-DAN-THEM-BAI.md`).
+Thêm bài bằng giao diện (khu giáo viên) hoặc bằng script SQL (`docs/guides/HUONG-DAN-THEM-BAI.md`).
 
 ## Cấu hình địa chỉ API và CORS
 **Địa chỉ API (`frontend/js/config.js`).** Tệp xuất đúng một hằng `API_BASE`, mặc định `'http://localhost:5000'`. Khi triển khai chỉ cần sửa tệp này (không build).
