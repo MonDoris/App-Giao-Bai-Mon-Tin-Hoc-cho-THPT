@@ -1,0 +1,13 @@
+bin/
+obj/
+*.db
+*.db-shm
+*.db-wal
+.vs/
+TestResults/
+
+# Tài liệu tham khảo dung lượng lớn (không đưa vào git)
+SGK12.pdf
+
+# Cài đặt cục bộ của Claude Code
+.claude/settings.local.json

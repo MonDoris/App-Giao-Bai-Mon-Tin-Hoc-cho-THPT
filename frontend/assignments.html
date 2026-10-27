@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi" data-guard>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f1f4f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1424" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Danh sách bài tập giáo viên giao cho bạn trên DK Edu, kèm hạn nộp và trạng thái làm bài.">
+  <title>Bài tập của tôi – DK Edu</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-400-normal.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-700-normal.woff2">
+  <script src="/js/theme-init.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <noscript><style>html[data-guard] body{visibility:visible}</style></noscript>
+</head>
+<body data-shell>
+  <a class="skip-link" href="#main">Bỏ qua, tới nội dung chính</a>
+  <aside class="app-sidebar" id="site-menu"></aside>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main" class="container">
+    <h1 class="page-title">Bài tập của tôi</h1>
+    <p class="lead">Các bài tập giáo viên đã giao, sắp theo hạn nộp (bài không có hạn ở cuối).</p>
+    <div class="filters">
+      <div class="form-field">
+        <label for="filter-status">Lọc theo trạng thái</label>
+        <select class="select" id="filter-status">
+          <option value="all">Tất cả</option>
+          <option value="NotStarted">Chưa làm</option>
+          <option value="InProgress">Đang làm</option>
+          <option value="Passed">Đã đạt</option>
+          <option value="Overdue">Quá hạn</option>
+        </select>
+      </div>
+    </div>
+    <div id="list" aria-live="polite" aria-busy="true" tabindex="-1"></div>
+  </main>
+
+  <script type="module" src="/js/assignments.js"></script>
+</body>
+</html>

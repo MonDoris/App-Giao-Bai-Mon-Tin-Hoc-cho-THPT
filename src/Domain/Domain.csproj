@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>TinHoc12.Domain</RootNamespace>
+    <AssemblyName>TinHoc12.Domain</AssemblyName>
+  </PropertyGroup>
+</Project>

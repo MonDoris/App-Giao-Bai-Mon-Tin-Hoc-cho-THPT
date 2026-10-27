@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi" data-guard>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f1f4f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1424" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Tổng quan khu giáo viên DK Edu.">
+  <title>Tổng quan giáo viên – DK Edu</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-400-normal.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-700-normal.woff2">
+  <script src="/js/theme-init.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <noscript><style>html[data-guard] body{visibility:visible}</style></noscript>
+</head>
+<body data-shell data-area="teacher">
+  <a class="skip-link" href="#main">Bỏ qua, tới nội dung chính</a>
+  <aside class="app-sidebar" id="site-menu"></aside>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main" class="container container--wide">
+    <div class="dash-head">
+      <h1 class="page-title" id="page-title">Tổng quan</h1>
+      <div class="dash-actions">
+        <a class="btn btn--primary" href="/teacher/lesson-edit.html">Tạo bài học</a>
+        <a class="btn" href="/teacher/assignments.html">Giao bài</a>
+        <a class="btn" href="/teacher/progress.html">Xem tiến độ</a>
+      </div>
+    </div>
+    <div id="board" aria-busy="true">
+      <p class="sr-only" role="status" id="board-status">Đang tải tổng quan…</p>
+      <div class="dash-kpis">
+        <div class="dash-slot" id="slot-lessons"></div>
+        <div class="dash-slot" id="slot-exercises"></div>
+        <div class="dash-slot" id="slot-students"></div>
+        <div class="dash-slot" id="slot-rate"></div>
+      </div>
+      <div class="dash-cols">
+        <section class="dash-section dash-card" aria-labelledby="h-todo">
+          <h2 id="h-todo">Việc cần làm</h2>
+          <div class="dash-slot" id="slot-guide" hidden></div>
+          <div id="todo-groups">
+            <div class="dash-slot" id="slot-draft"></div>
+            <div class="dash-slot" id="slot-soon"></div>
+            <div class="dash-slot" id="slot-none"></div>
+          </div>
+          <p class="dash-clear" id="todo-clear" hidden>Mọi thứ đã gọn gàng</p>
+        </section>
+        <section class="dash-section dash-card" aria-labelledby="h-chart">
+          <h2 id="h-chart">Tiến độ theo bài học</h2>
+          <div class="dash-slot" id="slot-chart"></div>
+        </section>
+      </div>
+      <section class="dash-section" aria-labelledby="h-recent">
+        <h2 id="h-recent">Hoạt động gần đây</h2>
+        <div class="dash-cols">
+          <div class="dash-card">
+            <h3>Giao bài gần đây</h3>
+            <div class="dash-slot" id="slot-recent-assign"></div>
+          </div>
+          <div class="dash-card">
+            <h3>Bài học sửa gần đây</h3>
+            <div class="dash-slot" id="slot-recent-lessons"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="/js/teacher/dashboard.js"></script>
+</body>
+</html>

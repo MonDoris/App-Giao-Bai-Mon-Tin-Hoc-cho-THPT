@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f1f4f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1424" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Đăng nhập DK Edu để học Tin học lớp 12 với Python hoặc quản lý bài giảng và bài tập.">
+  <title>Đăng nhập – DK Edu</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-400-normal.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-700-normal.woff2">
+  <script src="/js/theme-init.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+  <a class="skip-link" href="#main">Bỏ qua, tới nội dung chính</a>
+  <aside class="auth-brand">
+    <div class="auth-drift" aria-hidden="true"></div>
+    <div class="auth-brand__content">
+      <div class="auth-logo-tile">
+        <img class="auth-logo" src="/img/logo-dk-edu.png" srcset="/img/logo-dk-edu.png 1x, /img/logo-dk-edu@2x.png 2x" width="240" height="240" alt="Logo DK Edu: mũ cử nhân, sách mở và ký hiệu D/K" fetchpriority="high">
+      </div>
+      <p class="auth-brand__name">DK Edu</p>
+      <p class="auth-brand__tagline">Học Tin học 12 bằng Python, viết mã và nhận kết quả ngay trên trình duyệt.</p>
+    </div>
+  </aside>
+  <main id="main" class="auth-card">
+    <div class="auth-theme" id="theme-slot"></div>
+    <h1>Đăng nhập</h1>
+    <div id="notice" aria-live="polite"></div>
+    <div id="form-alert" role="alert"></div>
+    <form id="login-form" novalidate>
+      <div class="form-field">
+        <label for="username">Tên đăng nhập</label>
+        <input class="input" id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="50" aria-describedby="username-error">
+        <p class="field-error" id="username-error" role="alert" hidden></p>
+      </div>
+      <div class="form-field">
+        <label for="password">Mật khẩu</label>
+        <input class="input" id="password" name="password" type="password" autocomplete="current-password" maxlength="128" aria-describedby="password-error">
+        <p class="field-error" id="password-error" role="alert" hidden></p>
+      </div>
+      <button class="btn btn--primary" id="btn-login" type="submit">Đăng nhập</button>
+    </form>
+    <p class="auth-footer muted small">Quên mật khẩu? Hãy nhờ giáo viên đặt lại mật khẩu cho bạn.</p>
+  </main>
+  <script type="module" src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi" data-guard>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f1f4f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1424" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Tổng quan học tập của bạn trên DK Edu.">
+  <title>Tổng quan – DK Edu</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-400-normal.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-700-normal.woff2">
+  <script src="/js/theme-init.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <noscript><style>html[data-guard] body{visibility:visible}</style></noscript>
+</head>
+<body data-shell>
+  <a class="skip-link" href="#main">Bỏ qua, tới nội dung chính</a>
+  <aside class="app-sidebar" id="site-menu"></aside>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main" class="container container--wide">
+    <h1 class="page-title">Tổng quan</h1>
+    <div id="notice" aria-live="polite"></div>
+    <p class="greeting" id="greeting"></p>
+    <div id="board" aria-busy="true">
+      <p class="sr-only" role="status" id="board-status">Đang tải tổng quan…</p>
+      <div class="dash-kpis">
+        <div class="dash-slot" id="slot-ring"></div>
+        <div class="dash-slot" id="slot-done"></div>
+        <div class="dash-slot" id="slot-soon"></div>
+        <div class="dash-slot" id="slot-late"></div>
+      </div>
+      <div class="dash-cols">
+        <div class="dash-slot" id="slot-resume"></div>
+        <section class="dash-section dash-card" aria-labelledby="h-due">
+          <h2 id="h-due">Hạn nộp sắp tới</h2>
+          <div class="dash-slot" id="slot-due"></div>
+        </section>
+      </div>
+      <section class="dash-section" aria-labelledby="h-lessons">
+        <h2 id="h-lessons">Bài học của bạn</h2>
+        <div class="dash-slot" id="slot-lessons"></div>
+      </section>
+    </div>
+    <div id="empty-host" aria-live="polite"></div>
+  </main>
+
+  <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>

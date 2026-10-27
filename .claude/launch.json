@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "tinhoc12", "runtimeExecutable": "dotnet", "runtimeArgs": ["run", "--project", "src/Web"], "port": 5000 },
+    { "name": "frontend", "runtimeExecutable": "python", "runtimeArgs": ["-m", "http.server", "5173", "--directory", "frontend"], "port": 5173 }
+  ]
+}

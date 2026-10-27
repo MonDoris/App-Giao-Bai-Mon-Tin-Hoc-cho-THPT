@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="vi" data-guard>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f1f4f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1424" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Làm bài tập lập trình Python trên DK Edu: đề bài, trình soạn code, chạy thử và chấm bài ngay trên trình duyệt.">
+  <title>Bài tập – DK Edu</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-400-normal.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/be-vietnam-pro-latin-700-normal.woff2">
+  <script src="/js/theme-init.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <noscript><style>html[data-guard] body{visibility:visible}</style></noscript>
+  <!-- Pyodide phiên bản cố định (khớp js/py-worker.js). Chỉ trang làm bài mới nạp; worker dùng lại bản đã cache. -->
+  <link rel="preload" as="script" crossorigin="anonymous" href="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js">
+</head>
+<body data-shell>
+  <a class="skip-link" href="#main">Bỏ qua, tới nội dung chính</a>
+  <aside class="app-sidebar" id="site-menu"></aside>
+  <header class="site-header" id="site-header"></header>
+  <div id="preview-banner"></div>
+
+  <main id="main" aria-busy="true">
+    <div id="problem-root"></div>
+  </main>
+
+  <script type="module" src="/js/problem.js"></script>
+</body>
+</html>
